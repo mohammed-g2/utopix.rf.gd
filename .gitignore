@@ -1,0 +1,11 @@
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv
+
+# javascript
+node_modules/
+
+# other
+.env
