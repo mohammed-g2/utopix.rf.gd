@@ -80,6 +80,7 @@ def cli():
 
 @click.command()
 def delete_remote():
+    """clear the contents of htdocs in remote ftp server."""
     ftp.cwd('htdocs')
     delete_ftp_dirs(ftp)
     ftp.quit()
@@ -88,6 +89,7 @@ def delete_remote():
 
 @click.command('clone-repo')
 def clone_repo():
+    """clone github repo and clear .git file."""
     print('Cloning repo...')
     try:
         git.Repo.clone_from(os.environ.get('GITHUB_REPO'), 'website')
@@ -100,6 +102,7 @@ def clone_repo():
 
 @click.command('upload')
 def ftp_upload():
+    """upload website to remote htdocs ftp directory."""
     ftp.cwd('htdocs')
     print('Uploading...')
     upload(ftp, 'website')
@@ -111,6 +114,7 @@ def ftp_upload():
 
 @click.command('streamline')
 def streamline():
+    """run all commands."""
     delete_remote()
     clone_repo()
     ftp_upload()
