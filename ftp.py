@@ -69,11 +69,6 @@ def remove_folder_with_permission(repo: str):
     shutil.rmtree(repo)
 
 
-@click.group()
-def cli():
-    pass
-
-
 def delete_remote():
     """clear the contents of UPLOAD_TO in remote ftp server."""
     ftp = ftplib.FTP(
@@ -120,6 +115,11 @@ def ftp_upload():
     
     ftp.quit()
     print('Done.')
+
+
+@click.group()
+def cli():
+    pass
 
 
 @click.command('delete-remote')
