@@ -2,6 +2,7 @@
 
 namespace Utopix;
 
+use \Ninja\DatabaseTable;
 use \Ninja\Website;
 
 class UtopixWebsite implements Website
@@ -32,11 +33,14 @@ class UtopixWebsite implements Website
     {
         $found = false;
         foreach ($this->routes as $key => $val) {
+            include __DIR__ . '/../includes/DatabaseConnection.php';
+
             if ($key === $uri && isset($this->routes[$key][$method])) {
                 $controllerName = $this->routes[$key][$method]['controllerClass'];
-
+                $posts = new DatabaseTable($pdo, 'posts', 'id');
+                
                 if ($controllerName === 'Posts') {
-                    $controller = new \Utopix\Controllers\Posts();
+                    $controller = new \Utopix\Controllers\Posts($posts);
                 }
 
                 $this->routes[$key][$method]['controllerClass'] = $controller;
