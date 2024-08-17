@@ -32,7 +32,7 @@ class Posts implements Controller
         return [];
     }
 
-    public function delete(string $id): void {
+    public function delete(): void {
         return;
     }
 }
