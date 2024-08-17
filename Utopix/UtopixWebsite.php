@@ -20,9 +20,9 @@ class UtopixWebsite implements Website
         include __DIR__ . '/../includes/DatabaseConnection.php';
         $this->pdo = $pdo;
         $this->users = new DatabaseTable(
-            $pdo, 'users', 'id', 'Utopix\Entity\User', [&$this->posts]);
+            $this->pdo, 'users', 'id', 'Utopix\Entity\User', [&$this->posts]);
         $this->posts = new DatabaseTable(
-            $pdo, 'posts', 'id', '\Utopix\Entity\Post', [&$this->users]);
+            $this->pdo, 'posts', 'id', '\Utopix\Entity\Post', [&$this->users]);
         $this->authentication = new Authentication($this->users, 'email', 'password');
     }
 
