@@ -2,16 +2,22 @@
 
 namespace Utopix\Controllers;
 
-use DateTime;
+use \DateTime;
 use \Ninja\DatabaseTable;
+use \Ninja\Authentication;
 use \Ninja\Controller;
 
 class Posts implements Controller
 {
     private DatabaseTable $posts;
+    private DatabaseTable $categories;
+    private Authentication $authentication;
 
-    public function __construct(DatabaseTable $posts) {
+    public function __construct(DatabaseTable $posts, DatabaseTable $categories,
+            Authentication $authentication) {
         $this->posts = $posts;
+        $this->categories = $categories;
+        $this->authentication = $authentication;
     }
 
     public function __toString(): string
