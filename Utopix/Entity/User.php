@@ -35,6 +35,6 @@ class User
     public function addPost(array $post)
     {
         $post['user_id'] = $this->id;
-        $this->posts->save($post);
+        return $this->posts->save($post);
     }
 }
