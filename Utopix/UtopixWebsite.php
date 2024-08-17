@@ -12,6 +12,7 @@ class UtopixWebsite implements Website
     private PDO $pdo;
     private ?DatabaseTable $users;
     private ?DatabaseTable $posts;
+    private DatabaseTable $categories;
     private Authentication $authentication;
     private array $routes;
 
@@ -23,6 +24,7 @@ class UtopixWebsite implements Website
             $this->pdo, 'users', 'id', 'Utopix\Entity\User', [&$this->posts]);
         $this->posts = new DatabaseTable(
             $this->pdo, 'posts', 'id', '\Utopix\Entity\Post', [&$this->users]);
+        $this->categories = new DatabaseTable($this->pdo, 'categories', 'id');
         $this->authentication = new Authentication($this->users, 'email', 'password');
     }
 
@@ -53,11 +55,14 @@ class UtopixWebsite implements Website
             if ($key === $uri && isset($this->routes[$key][$method])) {
                 $controllerName = $this->routes[$key][$method]['controllerClass'];
                 
-                if ($controllerName === 'Posts') {
-                    $controller = new \Utopix\Controllers\Posts($this->posts);
-                }
+                $controllers = [
+                    'Posts' => new \Utopix\Controllers\Posts($this->posts),
+                    'Users' => new \Utopix\Controllers\Users($this->users),
+                    'Categories' => new \Utopix\Controllers\Categories($this->categories),
+                    'Auth' => new \Utopix\Controllers\Auth($this->users, $this->authentication)
+                ];
 
-                $this->routes[$key][$method]['controllerClass'] = $controller;
+                $this->routes[$key][$method]['controllerClass'] = $controllers[$controllerName];
                 return $this->routes[$key][$method];
             }
         }
