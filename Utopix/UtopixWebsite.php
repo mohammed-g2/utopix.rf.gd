@@ -116,4 +116,12 @@ class UtopixWebsite implements Website
             'permissions' => []
         ];
     }
+
+    /**
+     * get authentication instance
+     */
+    public function getAuth(): Authentication
+    {
+        return $this->authentication;
+    }
 }

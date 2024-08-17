@@ -31,4 +31,8 @@ interface Website {
      * return a list of all routes
      */
     public function getRoutes(): array;
+    /**
+     * return authentication instance
+     */
+    public function getAuth(): \Ninja\Authentication;
 }

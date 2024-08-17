@@ -2,8 +2,8 @@
 
 namespace Ninja;
 
-use Error;
 use \PDOException;
+use \Ninja\Website;
 
 /**
  * 
@@ -11,12 +11,12 @@ use \PDOException;
  */
 class EntryPoint
 {
-    private \Ninja\Website $website;
+    private Website $website;
 
     /**
      * @param \Ninja\Website $website - a class that implements interface \Ninja\Website
      */
-    public function __construct(\Ninja\Website $website)
+    public function __construct(Website $website)
     {
         $this->website = $website;
     }
@@ -60,10 +60,15 @@ class EntryPoint
             }
 
             $view = $this->website->getController($uri, $method);
+            $authentication = $this->website->getAuth();
 
             if (!isset($view)) {
                 http_response_code(404);
                 $content = '<h1 class="mt-3">Page not found</h1>';
+            }
+            else if ($view['requireAuth'] && !$authentication->isAuthenticated()) {
+                http_response_code(401);
+                header('location: /auth/login');
             }
             else {
                 $controller = $view['controllerClass'];
