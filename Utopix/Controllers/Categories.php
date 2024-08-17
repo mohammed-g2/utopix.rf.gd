@@ -5,7 +5,7 @@ use \Ninja\DatabaseTable;
 use \Ninja\Controller;
 
 
-class Category implements Controller
+class Categories implements Controller
 {
     private DatabaseTable $categories;
 
