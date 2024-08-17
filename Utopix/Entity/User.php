@@ -18,6 +18,11 @@ class User
         $this->posts = $posts;
     }
 
+    public function __toString(): string
+    {
+        return sprintf('<UserEntity %s>', $this->username);
+    }
+
     public function getPosts() 
     {
         return $this->posts->filterBy(['user_id' => $this->id]);

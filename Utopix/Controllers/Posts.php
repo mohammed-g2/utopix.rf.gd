@@ -2,6 +2,7 @@
 
 namespace Utopix\Controllers;
 
+use DateTime;
 use \Ninja\DatabaseTable;
 use \Ninja\Controller;
 
@@ -23,7 +24,10 @@ class Posts implements Controller
      */
     public function homePage(): array {
         return [
-            'template' => 'index.html.php'
+            'template' => 'index.html.php',
+            'variables' => [
+                'posts' => []
+            ]
         ];
     }
 
