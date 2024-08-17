@@ -39,7 +39,7 @@ class Authentication {
      * a new session if succeeded, else false
      */
     public function login(string $username, string $password): bool {
-        $user = $this->users->get($this->usernameColumn, strtolower($username));
+        $user = $this->users->filterBy([$this->usernameColumn => strtolower($username)]);
 
         if (!empty($user) && password_verify($password, $user[0][$this->passwordColumn])) {
             session_regenerate_id();
@@ -60,7 +60,7 @@ class Authentication {
             return false;
         }
         
-        $user = $this->users->get($this->usernameColumn, strtolower($_SESSION['username']));
+        $user = $this->users->filterBy([$this->usernameColumn => strtolower($_SESSION['username'])]);
 
         if (!empty($user) && $user[0][$this->passwordColumn] === $_SESSION['password']) {
             return true;
@@ -75,8 +75,8 @@ class Authentication {
      */
     public function getCurrentUer(): array|bool {
         if ($this->isAuthenticated()) {
-            return $this->users->get(
-                $this->usernameColumn, strtolower($_SESSION['username']))[0];
+            return $this->users->filterBy(
+                [$this->usernameColumn => strtolower($_SESSION['username'])])[0];
         }
         else {
             return false;
