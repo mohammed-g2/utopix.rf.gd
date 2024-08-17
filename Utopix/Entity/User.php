@@ -12,6 +12,7 @@ class User
     public string $password;
     public string $about_me;
     private DatabaseTable $posts;
+    private ?array $userPosts;
 
     public function __construct(DatabaseTable $posts)
     {
@@ -25,7 +26,10 @@ class User
 
     public function getPosts() 
     {
-        return $this->posts->filterBy(['user_id' => $this->id]);
+        if (empty($this->userPosts)) {
+            $this->userPosts = $this->posts->filterBy(['user_id' => $this->id]);
+        }
+        return $this->userPosts;
     }
 
     public function addPost(array $post)

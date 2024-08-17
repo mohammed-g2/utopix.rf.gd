@@ -12,7 +12,8 @@ class Post
     public int $user_id;
     public int $category_id;
     private DatabaseTable $users;
-    
+    private ?object $user;
+
     public function __construct(DatabaseTable $users)
     {
         $this->users = $users;
@@ -25,6 +26,9 @@ class Post
 
     public function getUser()
     {
-        return $this->users->getById(strval($this->id));
+        if (empty($this->user)) {
+            $this->user = $this->users->getById(strval($this->id));
+        }
+        return $this->user;
     }
 }
