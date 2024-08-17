@@ -23,7 +23,7 @@ class UtopixWebsite implements Website
 
     /** 
      * return an array of:
-     * ['controllerClass' => 'className',
+     * ['controllerClass' => classInstance,
      * 'controllerView' => 'methodName',
      * 'requireAuth' => bool,
      * 'permissionsRequired' => int]
@@ -33,6 +33,13 @@ class UtopixWebsite implements Website
         $found = false;
         foreach ($this->routes as $key => $val) {
             if ($key === $uri && isset($this->routes[$key][$method])) {
+                $controllerName = $this->routes[$key][$method]['controllerClass'];
+
+                if ($controllerName === 'Posts') {
+                    $controller = new \Utopix\Controllers\Posts();
+                }
+
+                $this->routes[$key][$method]['controllerClass'] = $controller;
                 return $this->routes[$key][$method];
             }
         }

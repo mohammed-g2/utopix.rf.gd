@@ -12,7 +12,7 @@ $entryPoint = new EntryPoint($website);
 $uri = strtok(ltrim($_SERVER['REQUEST_URI'], '/'), '?');
 $method = $_SERVER['REQUEST_METHOD'];
 
-$website->addRoute('posts/list', 'GET', ['\Utopix\Controllers\PostsController', 'list']);
-$website->addRoute('/', 'GET', ['\Utopix\Controllers\PostsController', 'homePage']);
+$website->addRoute('posts/list', 'GET', ['Posts', 'list']);
+$website->addRoute('/', 'GET', ['Posts', 'homePage']);
 
 $entryPoint->run($uri, $method);

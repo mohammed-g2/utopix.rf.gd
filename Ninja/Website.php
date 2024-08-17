@@ -8,7 +8,7 @@ interface Website {
     public function getDefaultRoute(): string;
     /** 
      * return an array of:
-     * ['controllerClass' => 'className',
+     * ['controllerClass' => classInstance,
      * 'controllerView' => 'methodName',
      * 'requireAuth' => bool,
      * 'permissionsRequired' => int]

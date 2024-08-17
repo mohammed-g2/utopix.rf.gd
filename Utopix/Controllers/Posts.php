@@ -4,7 +4,7 @@ namespace Utopix\Controllers;
 
 use \Ninja\Controller;
 
-class PostsController implements Controller
+class Posts implements Controller
 {
     public function __construct() {}
 

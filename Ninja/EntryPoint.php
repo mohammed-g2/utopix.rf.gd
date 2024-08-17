@@ -63,16 +63,10 @@ class EntryPoint
 
             if (!isset($view)) {
                 http_response_code(404);
-                $title = 'Page not found';
                 $content = '<h1 class="mt-3">Page not found</h1>';
             }
             else {
-
-                try {
-                    $controller = new $view['controllerClass']();
-                } catch (Error $e) {
-                    $controller = '';
-                }
+                $controller = $view['controllerClass'];
                 $action = $view['controllerView'];
     
                 $uri_vars = [];
@@ -91,13 +85,11 @@ class EntryPoint
                 } 
                 else {
                     http_response_code(404);
-                    $title = 'Page not found';
                     $content = '<h1 class="mt-3">Page not found</h1>';
                 }
             }
         } 
         catch (PDOException $e) {
-            $title = 'An error occurred';
             $content = 'Unable to connect to database <br>'
                 . 'Error: ' . $e->getMessage() . '<br>'
                 . 'File: '  . $e->getFile()    . '<br>'
