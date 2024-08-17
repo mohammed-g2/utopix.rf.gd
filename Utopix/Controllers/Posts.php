@@ -13,6 +13,11 @@ class Posts implements Controller
         $this->posts = $posts;
     }
 
+    public function __toString(): string
+    {
+        return '<Controller Posts>';
+    }
+
     /**
      * the website's landing page
      */
