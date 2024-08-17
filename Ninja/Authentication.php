@@ -18,8 +18,8 @@ class Authentication {
     /**
      * 
      * @param \Ninja\DatabaseTable $users - the users table
-     * @param string $usernameColumn - the username database column name
-     * @param string $passwordColumn - the password database column name
+     * @param string $usernameColumn - the username database column name to use in authentication
+     * @param string $passwordColumn - the password database column name to use in authentication
      */
     public function __construct(DatabaseTable $users, string $usernameColumn, string $passwordColumn)
     {

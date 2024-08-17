@@ -12,7 +12,7 @@ class Post
     public int $user_id;
     public int $category_id;
     private DatabaseTable $users;
-
+    
     public function __construct(DatabaseTable $users)
     {
         $this->users = $users;

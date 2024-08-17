@@ -2,12 +2,29 @@
 
 namespace Utopix;
 
+use \PDO;
 use \Ninja\DatabaseTable;
+use \Ninja\Authentication;
 use \Ninja\Website;
 
 class UtopixWebsite implements Website
 {
+    private PDO $pdo;
+    private ?DatabaseTable $users;
+    private ?DatabaseTable $posts;
+    private Authentication $authentication;
     private array $routes;
+
+    public function __construct()
+    {
+        include __DIR__ . '/../includes/DatabaseConnection.php';
+        $this->pdo = $pdo;
+        $this->users = new DatabaseTable(
+            $pdo, 'users', 'id', 'Utopix\Entity\User', [&$this->posts]);
+        $this->posts = new DatabaseTable(
+            $pdo, 'posts', 'id', '\Utopix\Entity\Post', [&$this->users]);
+        $this->authentication = new Authentication($this->users, 'email', 'password');
+    }
 
     public function __toString()
     {
@@ -33,14 +50,11 @@ class UtopixWebsite implements Website
     {
         $found = false;
         foreach ($this->routes as $key => $val) {
-            include __DIR__ . '/../includes/DatabaseConnection.php';
-
             if ($key === $uri && isset($this->routes[$key][$method])) {
                 $controllerName = $this->routes[$key][$method]['controllerClass'];
-                $posts = new DatabaseTable($pdo, 'posts', 'id');
                 
                 if ($controllerName === 'Posts') {
-                    $controller = new \Utopix\Controllers\Posts($posts);
+                    $controller = new \Utopix\Controllers\Posts($this->posts);
                 }
 
                 $this->routes[$key][$method]['controllerClass'] = $controller;
@@ -89,8 +103,8 @@ class UtopixWebsite implements Website
      */
     public function getTemplateContext(): array {
         return [
-            'current_user' => '',
-            'is_authenticated' => '',
+            'current_user' => $this->authentication->getCurrentUer(),
+            'is_authenticated' => $this->authentication->isAuthenticated(),
             'permissions' => []
         ];
     }
