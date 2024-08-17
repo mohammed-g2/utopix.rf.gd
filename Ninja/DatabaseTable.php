@@ -11,7 +11,7 @@ use \DateTime;
  * preforms database queries
  * @method int total() get total number of entries stored in table
  * @method array | false getById(string $id) get entry by id
- * @method array get(array $values) get entries by specified columns
+ * @method array filterBy(array $values) get entries by specified columns
  * @method array getAll() get all entries in table
  * @method true save(array $record) will attempt to insert entry, 
  *         if failed attempt to update it, entry's id must be provided for update
@@ -22,17 +22,23 @@ class DatabaseTable
     private PDO $pdo;
     private string $table;
     private string $primaryKey;
+    private string $className;
+    private array $constructorArgs;
 
     /**
      * @param PDO $pdo - database connection
      * @param string $table - database table name
      * @param string $primaryKey - database table's primary key 
      */
-    public function __construct(PDO $pdo, string $table, string $primaryKey)
+    public function __construct(
+        PDO $pdo, string $table, string $primaryKey, 
+        string $className='\stdClass', array $constructorArgs=[])
     {
         $this->pdo = $pdo;
         $this->table = $table;
         $this->primaryKey = $primaryKey;
+        $this->className = $className;
+        $this->constructorArgs = $constructorArgs;
     }
 
     public function __toString(): string
@@ -67,7 +73,7 @@ class DatabaseTable
     /**
      * find an entry by specified columns
      */
-    public function get(array $values): array
+    public function filterBy(array $values): array
     {
         $sql = 'SELECT * FROM `' . $this->table . '` WHERE ';
         foreach ($values as $key => $val) {
@@ -76,9 +82,8 @@ class DatabaseTable
         $sql = rtrim($sql, ',');
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($values);
-        return $stmt->fetchAll(
-            PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
-            '\Ijdb\Entity\Author', $values);
+        return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+            $this->className, $this->constructorArgs);
     }
 
     /**
@@ -89,7 +94,8 @@ class DatabaseTable
         $sql = 'SELECT * FROM `' . $this->table . '`';
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
-        $entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $entries = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+            $this->className, $this->constructorArgs);
         return $entries;
     }
 
