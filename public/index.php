@@ -12,7 +12,6 @@ $entryPoint = new EntryPoint($website);
 $uri = strtok(ltrim($_SERVER['REQUEST_URI'], '/'), '?');
 $method = $_SERVER['REQUEST_METHOD'];
 
-$website->addRoute('posts/list', 'GET', ['Posts', 'list']);
-$website->addRoute('/', 'GET', ['Posts', 'homePage']);
+include_once __DIR__ . '/../includes/routes.php';
 
 $entryPoint->run($uri, $method);
