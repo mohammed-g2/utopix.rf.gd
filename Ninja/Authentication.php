@@ -71,6 +71,19 @@ class Authentication {
     }
 
     /**
+     * get current logged in user, else return false
+     */
+    public function getCurrentUer(): array|bool {
+        if ($this->isAuthenticated()) {
+            return $this->users->get(
+                $this->usernameColumn, strtolower($_SESSION['username']))[0];
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * logout user, remove session
      */
     public function logout() {
