@@ -35,7 +35,12 @@ class UtopixWebsite implements Website
             '\Utopix\Entity\Post',
             [&$this->users, &$this->postCategories]
         );
-        $this->categories = new DatabaseTable($this->pdo, 'categories', 'id');
+        $this->categories = new DatabaseTable(
+            $this->pdo, 
+            'categories', 
+            'id',
+        'Utopix\Entity\Category',
+        [&$this->posts]);
         $this->postCategories = new DatabaseTable($this->pdo, 'post_category', 'category_id');
         $this->authentication = new Authentication($this->users, 'email', 'password');
     }
