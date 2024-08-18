@@ -22,9 +22,19 @@ class UtopixWebsite implements Website
         include __DIR__ . '/../includes/DatabaseConnection.php';
         $this->pdo = $pdo;
         $this->users = new DatabaseTable(
-            $this->pdo, 'users', 'id', 'Utopix\Entity\User', [&$this->posts]);
+            $this->pdo,
+            'users',
+            'id',
+            'Utopix\Entity\User',
+            [&$this->posts]
+        );
         $this->posts = new DatabaseTable(
-            $this->pdo, 'posts', 'id', '\Utopix\Entity\Post', [&$this->users]);
+            $this->pdo,
+            'posts',
+            'id',
+            '\Utopix\Entity\Post',
+            [&$this->users]
+        );
         $this->categories = new DatabaseTable($this->pdo, 'categories', 'id');
         $this->postCategories = new DatabaseTable($this->pdo, 'post_category', 'category_id');
         $this->authentication = new Authentication($this->users, 'email', 'password');
@@ -40,7 +50,7 @@ class UtopixWebsite implements Website
      */
     public function getDefaultRoute(): string
     {
-        return '/';
+        return 'posts/home';
     }
 
     /** 
@@ -49,27 +59,35 @@ class UtopixWebsite implements Website
      * 'controllerView' => 'methodName',
      * 'requireAuth' => bool,
      * 'permissionsRequired' => int]
-    */
+     */
     public function getController(string $uri, string $method): array|null
     {
-        $found = false;
-        foreach ($this->routes as $key => $val) {
-            if ($key === $uri && isset($this->routes[$key][$method])) {
-                $controllerName = $this->routes[$key][$method]['controllerClass'];
-                
-                $controllers = [
-                    'Posts' => new \Utopix\Controllers\Posts(
-                        $this->posts, $this->categories, $this->authentication),
-                    'Users' => new \Utopix\Controllers\Users($this->users),
-                    'Categories' => new \Utopix\Controllers\Categories($this->categories),
-                    'Auth' => new \Utopix\Controllers\Auth($this->users, $this->authentication)
-                ];
-
-                $this->routes[$key][$method]['controllerClass'] = $controllers[$controllerName];
-                return $this->routes[$key][$method];
+        $uriParts = $this->getParts($uri);
+        $controllerName = null;
+        foreach ($this->routes as $routeName => $val) {
+            $_ = $routeName;
+            if ($uriParts['main'] === explode('/', $_)) {
+                $controllerName = $this->routes[$routeName]['methods'][$method]['controllerClass'];
             }
         }
-        if (!$found) {
+        $controllers = [
+            'Posts' => new \Utopix\Controllers\Posts(
+                $this->posts,
+                $this->categories,
+                $this->authentication
+            ),
+            'Users' => new \Utopix\Controllers\Users($this->users),
+            'Categories' => new \Utopix\Controllers\Categories($this->categories),
+            'Auth' => new \Utopix\Controllers\Auth($this->users, $this->authentication),
+            'Errors' => new \Utopix\Controllers\Errors()
+        ];
+
+        if ($controllerName) {
+            $this->routes[$uri]['methods'][$method]['controllerClass'] = $controllers[$controllerName];
+            $this->routes[$uri]['methods'][$method]['vars'] = $uriParts['vars'];
+            return $this->routes[$uri]['methods'][$method];
+        }
+        else {
             return null;
         }
     }
@@ -87,15 +105,26 @@ class UtopixWebsite implements Website
      */
     public function addRoute(
         string $uri,
-        string $method,
+        array $methods,
         array $controller,
         bool $requireAuth = false,
         int $permissionsRequired = 0
     ) {
-        $this->routes[$uri][$method]['controllerClass'] = $controller[0];
-        $this->routes[$uri][$method]['controllerView'] = $controller[1];
-        $this->routes[$uri][$method]['requireAuth'] = $requireAuth;
-        $this->routes[$uri][$method]['permissionsRequired'] = $permissionsRequired;
+        $this->routes[$uri]['methods'] = $methods;
+        foreach ($methods as $method) {
+            $this->routes[$uri]['methods'][$method]['controllerClass'] = $controller[0];
+            $this->routes[$uri]['methods'][$method]['controllerView'] = $controller[1];
+            $this->routes[$uri]['methods'][$method]['requireAuth'] = $requireAuth;
+            $this->routes[$uri]['methods'][$method]['permissionsRequired'] = $permissionsRequired;
+        }
+    }
+
+    private function getParts($uri): array
+    {
+        $parts = explode('/', $uri);
+        return [
+            'main' => [array_shift($parts), array_shift($parts)],
+            'vars' => $parts];
     }
 
     /**
@@ -109,7 +138,8 @@ class UtopixWebsite implements Website
     /**
      * get variable available to all templates
      */
-    public function getTemplateContext(): array {
+    public function getTemplateContext(): array
+    {
         return [
             'current_user' => $this->authentication->getCurrentUer(),
             'is_authenticated' => $this->authentication->isAuthenticated(),

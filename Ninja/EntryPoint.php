@@ -62,36 +62,25 @@ class EntryPoint
             $view = $this->website->getController($uri, $method);
             $authentication = $this->website->getAuth();
 
-            if (!isset($view)) {
-                http_response_code(404);
-                $content = '<h1 class="mt-3">Page not found</h1>';
-            }
-            else if ($view['requireAuth'] && !$authentication->isAuthenticated()) {
+            if (isset($view) && $view['requireAuth'] && !$authentication->isAuthenticated()) {
                 http_response_code(401);
                 header('location: /auth/login');
+                exit;
             }
-            else {
+            else if (isset($view)) {
                 $controller = $view['controllerClass'];
                 $action = $view['controllerView'];
     
-                $uri_vars = [];
-                foreach (explode('/', $uri) as $part) {
-                    if (str_starts_with($part, '{')) {
-                        $part = ltrim($part, '{');
-                        $part = rtrim($part, '}');
-                        $uri_vars[] = $part;
-                    }
-                }
-    
                 if (is_callable([$controller, $action])) {
-                    $page = $controller->$action(...$uri_vars);
+                    $page = $controller->$action(...$view['vars']);
                     $variables = $page['variables'] ?? [];
                     $content = $this->loadTemplate($page['template'], $variables);
-                } 
-                else {
-                    http_response_code(404);
-                    $content = '<h1 class="mt-3">Page not found</h1>';
                 }
+            }
+            else {
+                http_response_code(404);
+                header('location: /error/404');
+                exit;
             }
         } 
         catch (PDOException $e) {

@@ -25,7 +25,7 @@ interface Website {
     /**
      * add route to a list of routes
      */
-    public function addRoute(string $uri, string $method, array $controller,
+    public function addRoute(string $uri, array $methods, array $controller,
         bool $requireLogin, int $permissionsRequired);
     /**
      * return a list of all routes

@@ -23,7 +23,9 @@ class Auth
 
     public function login()
     {
-
+        return [
+            'template' => 'auth/login.html.php'
+        ];
     }
 
     public function logout()
