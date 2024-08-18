@@ -12,11 +12,13 @@ class Post
     public int $user_id;
     public int $category_id;
     private DatabaseTable $users;
+    private DatabaseTable $postCategories;
     private ?object $user;
 
-    public function __construct(DatabaseTable $users)
+    public function __construct(DatabaseTable $users, DatabaseTable $postCategories)
     {
         $this->users = $users;
+        $this->postCategories = $postCategories;
     }
 
     public function __toString(): string
@@ -24,11 +26,17 @@ class Post
         return sprintf('<PostEntity %s>', $this->title);
     }
 
-    public function getUser()
+    public function getUser(): object
     {
         if (empty($this->user)) {
             $this->user = $this->users->getById(strval($this->id));
         }
         return $this->user;
+    }
+
+    public function addCategory(string $id)
+    {
+        $postCategory = ['post_id' => $this->id, 'category_id' => $id];
+        $this->postCategories->save($postCategory);
     }
 }

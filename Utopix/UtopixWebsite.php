@@ -12,8 +12,8 @@ class UtopixWebsite implements Website
     private PDO $pdo;
     private ?DatabaseTable $users;
     private ?DatabaseTable $posts;
-    private DatabaseTable $categories;
-    private DatabaseTable $postCategories;
+    private ?DatabaseTable $categories;
+    private ?DatabaseTable $postCategories;
     private Authentication $authentication;
     private array $routes;
 
@@ -33,7 +33,7 @@ class UtopixWebsite implements Website
             'posts',
             'id',
             '\Utopix\Entity\Post',
-            [&$this->users]
+            [&$this->users, &$this->postCategories]
         );
         $this->categories = new DatabaseTable($this->pdo, 'categories', 'id');
         $this->postCategories = new DatabaseTable($this->pdo, 'post_category', 'category_id');
