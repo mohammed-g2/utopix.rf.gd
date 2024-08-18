@@ -114,7 +114,7 @@ class DatabaseTable
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($values);
-        return true;
+        return $this->pdo->lastInsertId();
     }
 
     /**
@@ -138,20 +138,31 @@ class DatabaseTable
 
     /**
      * will attempt to insert entry, if failed will attempt to update it,
-     * entry's id must be provided for update
+     * entry's id must be provided for update, returns the saved record
+     * as instance of given entity class
      * @return true
      */
-    public function save(array $record): bool
+    public function save(array $record): object
     {
+        $entity = new $this->className(...$this->constructorArgs);
         try {
             if (empty($record[$this->primaryKey])) {
                 unset($record[$this->primaryKey]);
             }
-            $this->insert($record);
+            $insertId = $this->insert($record);
+            $entity->{$this->primaryKey} = $insertId;
         } catch (PDOException $e) {
             $this->update($record);
         }
-        return true;
+        foreach ($record as $key => $val) {
+            if (!empty($val)) {
+                if ($val instanceof \DateTime) {
+                    $val = $val->format('Y:m:d H:i:s');
+                }
+                $entity->$key = $val;
+            }
+        }
+        return $entity;
     }
 
     /**
