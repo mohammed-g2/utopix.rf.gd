@@ -73,13 +73,22 @@ class DatabaseTable
     /**
      * find an entry by specified columns
      */
-    public function filterBy(array $values): array
+    public function filterBy(array $values, ?string $orderBy=null, int $limit=0, int $offset=0): array
     {
         $sql = 'SELECT * FROM `' . $this->table . '` WHERE ';
         foreach ($values as $key => $val) {
             $sql .= '`' . $this->table . '`.`' . $key . '` = ' . ':' . $key . ',';
         }
         $sql = rtrim($sql, ',');
+        if ($orderBy !== null) {
+            $sql .= ' ORDER BY ' . $orderBy;
+        }
+        if ($limit !== 0) {
+            $sql .= ' LIMIT ' . $limit;
+        }
+        if ($offset !== 0) {
+            $sql .= ' OFFSET ' . $offset;
+        }
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($values);
         return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
@@ -89,9 +98,18 @@ class DatabaseTable
     /**
      * get all entries in table
      */
-    public function getAll(): array
+    public function getAll(?string $orderBy=null, int $limit=0, int $offset): array
     {
         $sql = 'SELECT * FROM `' . $this->table . '`';
+        if ($orderBy !== null) {
+            $sql .= ' ORDER BY ' . $orderBy;
+        }
+        if ($limit !== 0) {
+            $sql .= ' LIMIT ' . $limit;
+        }
+        if ($offset !== 0) {
+            $sql .= ' OFFSET ' . $offset;
+        }
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
         $entries = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
