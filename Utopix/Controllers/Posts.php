@@ -50,7 +50,9 @@ class Posts implements Controller
      * method GET, get post by id
      */
     public function get(string $id): array {
-        return [];
+        return [
+            'template' => 'posts/post.html.php'
+        ];
     }
 
     /**
@@ -58,7 +60,9 @@ class Posts implements Controller
      * method POST, attempt to create a new post then redirect
      */
     public function create(): array|null {
-        return [];
+        return [
+            'template' => 'posts/create.html.php'
+        ];
     }
 
     /**
@@ -66,7 +70,9 @@ class Posts implements Controller
      * method POST, attempt to update the post then redirect
      */
     public function update(string $id): array|null {
-        return [];
+        return [
+            'template' => 'posts/update.html.php'
+        ];
     }
 
     /**
