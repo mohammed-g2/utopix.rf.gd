@@ -9,8 +9,10 @@ class Post
     public string $title;
     public string $body;
     public string $updated_at;
+    public string $img_url;
+    public int $visits;
+    public int $publish;
     public int $user_id;
-    public int $category_id;
     private DatabaseTable $users;
     private DatabaseTable $postCategories;
     private ?object $user;
