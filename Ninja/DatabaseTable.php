@@ -98,7 +98,7 @@ class DatabaseTable
     /**
      * get all entries in table
      */
-    public function getAll(?string $orderBy=null, int $limit=0, int $offset): array
+    public function getAll(?string $orderBy=null, int $limit=0, int $offset=0): array
     {
         $sql = 'SELECT * FROM `' . $this->table . '`';
         if ($orderBy !== null) {

@@ -61,25 +61,24 @@ class EntryPoint
 
             $view = $this->website->getController($uri, $method);
             $authentication = $this->website->getAuth();
-
+            
             if (isset($view)) {
                 if ($view['requireAuth'] && !$authentication->isAuthenticated()) {
                     http_response_code(401);
-                    header('location: /errors/401');
+                    header('location: /error/401');
                     exit;
                 } 
-                else if (isset($view['permissionsRequired'])) {
+                else if ($view['permissionsRequired'] !== 0) {
                     $user = $authentication->getCurrentUer();
                     if ($user !== false && !$user->hasPermission($view['permissionRequired'])) {
                         http_response_code(403);
-                        header('location: /errors/403');
+                        header('location: /error/403');
                         exit;
                     }
                 }
                 else {
                     $controller = $view['controllerClass'];
                     $action = $view['controllerView'];
-
                     if (is_callable([$controller, $action])) {
                         $page = $controller->$action(...$view['vars']);
                         $variables = $page['variables'] ?? [];
@@ -93,10 +92,11 @@ class EntryPoint
                 exit;
             }
         } catch (PDOException $e) {
-            $content = 'Unable to connect to database <br>'
-                . 'Error: ' . $e->getMessage() . '<br>'
-                . 'File: '  . $e->getFile()    . '<br>'
-                . 'Line: '  . $e->getLine();
+            // $content = 'Unable to connect to database <br>'
+            //     . 'Error: ' . $e->getMessage() . '<br>'
+            //     . 'File: '  . $e->getFile()    . '<br>'
+            //     . 'Line: '  . $e->getLine();
+            $content = 'An error occurred';
         }
 
         $layoutVariables = $this->website->getTemplateContext();

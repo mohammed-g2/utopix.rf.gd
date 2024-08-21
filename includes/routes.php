@@ -31,3 +31,5 @@ $website->addRoute('users/delete', ['Post'], ['Users', 'delete'], true);
 
 // Error routes
 $website->addRoute('error/404', ['GET'], ['Errors', 'pageNotFound']);
+$website->addRoute('error/401', ['GET'], ['Errors', 'authenticationRequired']);
+$website->addRoute('error/403', ['GET'], ['Errors', 'forbidden']);
