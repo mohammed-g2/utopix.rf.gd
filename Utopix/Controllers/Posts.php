@@ -44,7 +44,7 @@ class Posts implements Controller
      * method GET, return a list of posts
      */
     public function list(): array {
-        $page = $_GET['page'];
+        $page = $_GET['page'] ?? 1;
         $perPage = 10;
         if (isset($page)) {
             $posts = $this->posts->getAll('updated_at DESC', $perPage, $page * $perPage);

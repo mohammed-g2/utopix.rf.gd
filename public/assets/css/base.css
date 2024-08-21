@@ -1,7 +1,9 @@
+* {
+    border-radius: 0 !important;
+}
+
 html,
 body {
-    background-color: #0d0d0d;
-    color: #fff !important;
     width: 100%;
     max-width: 100%;
     height: 100%;
@@ -11,13 +13,10 @@ body {
 }
 
 a {
-    color: #fff !important;
     text-decoration: none;
 }
 
-a:hover {
-    color: #c9c9c9 !important;
-}
+a:hover {}
 
 .icon {
     position: relative;
@@ -27,49 +26,50 @@ a:hover {
 
 
 .navbar {
-    background-color: #9e0303;
+    background-color: #b31a0f;
 }
 
 .navbar .nav-link,
 #search-btn {
     font-family: "Cinzel", serif;
     font-size: 15px;
+    color: #fff;
     text-transform: uppercase;
     display: inline-block !important;
-    background-color: #a81d1d;
-    color: #fff !important;
+    background-color: #99160d;
     margin: 4px 20px 4px 0 !important;
-    padding: 16px 26px 16px 26px !important;
+    padding: 12px 26px 12px 26px !important;
 }
 
 .navbar .nav-link:hover,
 #search-btn:hover {
     background-color: #d10808;
-    color: #fff !important;
-}
-
-.skewed-btn {
-    transform: skew(-12deg);
-    border-radius: 0 !important;
 }
 
 #hero-image {
-    background-image: url(/images/dark-souls-3.jpg);
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top center;
+    color: #fff;
+}
+
+.thumbnail {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
 }
 
 .card-img {
     object-fit: cover !important;
 }
 
-.pagination-items a, .pagination-items span {
+.pagination-items a,
+.pagination-items span {
     display: inline-block;
     font-size: 18px;
-    color: #ffffff;
     background: #252525;
     padding: 8px 18px 6px;
     -webkit-transform: skewX(-15deg);
@@ -82,13 +82,13 @@ a:hover {
     text-decoration: none;
 }
 
-.pagination-items a:hover, .pagination-items li:hover {
+.pagination-items a:hover,
+.pagination-items li:hover {
     background: #505050;
     cursor: pointer;
 }
 
 .social-media {
-    transform: skew(-12deg);
     border: 2px solid #212529;
 }
 
@@ -96,20 +96,26 @@ a:hover {
     border: 2px solid rgb(127, 127, 253);
 }
 
-.skewed-input {
-    transform: skew(-12deg);
-    border-radius: 0 !important;
-    border: 1px solid gray !important;
-    background-color: transparent !important;
-    color: #fff !important;
-}
-
 .btn-red {
     background-color: #680606;
-    color:#fff;
+    color: #fff;
 }
 
 .btn-red:hover {
     background-color: #960505;
-    color:#fff;
+    color: #fff;
+}
+
+.skew {
+    transform: skew(-12deg);
+}
+
+.glass-bg {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.473);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #000;
 }

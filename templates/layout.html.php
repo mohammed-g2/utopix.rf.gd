@@ -15,22 +15,26 @@
 </head>
 
 <body>
-  <div class="bg-black py-2 px-3 d-flex justify-content-between">
+  <div class="bg-black py-2 px-3 d-flex justify-content-between text-white">
     <div>
-      <small><a href="#"><i class="zmdi zmdi-account"></i> Login</a></small> /
-      <small><a href="#">Sign up</a></small>
+      <small><a href="/auth/login" class="text-white"><i class="zmdi zmdi-account"></i> Login</a></small> /
+      <small><a href="/users/create" class="text-white">Sign up</a></small>
     </div>
     <div>
-      <small class="mx-2"><a href="#"><i class="zmdi zmdi-hc-lg zmdi-facebook-box"></i></a></small>
-      <small class="mx-2"><a href="#"><i class="zmdi zmdi-hc-lg zmdi-twitter"></i></a></small>
-      <small class="mx-2"><a href="#"><i class="zmdi zmdi-hc-lg zmdi-email"></i></a></small>
+      <small class="mx-2"><a href="#" class="text-white"><i class="zmdi zmdi-hc-lg zmdi-facebook-box"></i></a></small>
+      <small class="mx-2"><a href="#" class="text-white"><i class="zmdi zmdi-hc-lg zmdi-twitter"></i></a></small>
+      <small class="mx-2"><a href="#" class="text-white"><i class="zmdi zmdi-hc-lg zmdi-email"></i></a></small>
     </div>
   </div>
 
   <div class="container-fluid p-0 h-100">
     <div class="row p-0 m-0">
       <div class="col mt-4 mb-4 d-flex justify-content-center p-0 m-0">
-        <h1 style="font-size:5em;"><span style="color:#c00100;">𝖀</span>𝖙𝖔𝖕𝖎𝖝</h1>
+        <h1 style="font-size:5em;">
+          <a href="/" class="text-black">
+            <span style="color:#c00100;">𝖀</span>𝖙𝖔𝖕𝖎𝖝
+          </a>
+        </h1>
       </div>
     </div>
 

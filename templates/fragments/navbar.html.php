@@ -7,18 +7,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
-                <li class="nav-item skewed-btn ">
-                    <a class="nav-link" href="#">Home</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item skewed-btn ">
-                    <a class="nav-link" href="#">Link</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts/list">All Posts</a>
                 </li>
-                <li class="nav-item dropdown skewed-btn">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Dropdown
+                        Categories
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-dark rounded-0" style="transform: skew(12deg);">
+                    <ul class="dropdown-menu rounded-0">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li>
@@ -27,13 +27,7 @@
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
-                <li class="nav-item skewed-btn ">
-                    <a href="#" class="nav-link">Disabled</a>
-                </li>
-                <li class="nav-item skewed-btn ">
-                    <a href="#" class="nav-link">Disabled</a>
-                </li>
-                <li class="nav-item skewed-btn">
+                <li class="nav-item">
                     <button class="btn mt-md-5 rounded-0" id="search-btn">
                         <i class="zmdi zmdi-hc-lg zmdi-search"></i>
                     </button>
