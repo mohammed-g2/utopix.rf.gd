@@ -18,4 +18,18 @@ class Errors
             'template' => 'errors/404.html.php'
         ];
     }
+
+    public function authenticationRequired()
+    {
+        return [
+            'template' => 'errors/401.html.php'
+        ];
+    }
+
+    public function forbidden()
+    {
+        return [
+            'template' => 'error/403.html.php'
+        ];
+    }
 }

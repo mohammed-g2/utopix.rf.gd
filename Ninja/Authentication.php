@@ -73,7 +73,7 @@ class Authentication {
     /**
      * get current logged in user, else return false
      */
-    public function getCurrentUer(): array|bool {
+    public function getCurrentUer(): object|bool {
         if ($this->isAuthenticated()) {
             return $this->users->filterBy(
                 [$this->usernameColumn => strtolower($_SESSION['username'])])[0];

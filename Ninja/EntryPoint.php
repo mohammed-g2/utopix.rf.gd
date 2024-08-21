@@ -62,28 +62,37 @@ class EntryPoint
             $view = $this->website->getController($uri, $method);
             $authentication = $this->website->getAuth();
 
-            if (isset($view) && $view['requireAuth'] && !$authentication->isAuthenticated()) {
-                http_response_code(401);
-                header('location: /auth/login');
-                exit;
-            }
-            else if (isset($view)) {
-                $controller = $view['controllerClass'];
-                $action = $view['controllerView'];
-    
-                if (is_callable([$controller, $action])) {
-                    $page = $controller->$action(...$view['vars']);
-                    $variables = $page['variables'] ?? [];
-                    $content = $this->loadTemplate($page['template'], $variables);
+            if (isset($view)) {
+                if ($view['requireAuth'] && !$authentication->isAuthenticated()) {
+                    http_response_code(401);
+                    header('location: /errors/401');
+                    exit;
+                } 
+                else if (isset($view['permissionsRequired'])) {
+                    $user = $authentication->getCurrentUer();
+                    if ($user !== false && !$user->hasPermission($view['permissionRequired'])) {
+                        http_response_code(403);
+                        header('location: /errors/403');
+                        exit;
+                    }
                 }
-            }
+                else {
+                    $controller = $view['controllerClass'];
+                    $action = $view['controllerView'];
+
+                    if (is_callable([$controller, $action])) {
+                        $page = $controller->$action(...$view['vars']);
+                        $variables = $page['variables'] ?? [];
+                        $content = $this->loadTemplate($page['template'], $variables);
+                    }
+                }
+            } 
             else {
                 http_response_code(404);
                 header('location: /error/404');
                 exit;
             }
-        } 
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             $content = 'Unable to connect to database <br>'
                 . 'Error: ' . $e->getMessage() . '<br>'
                 . 'File: '  . $e->getFile()    . '<br>'

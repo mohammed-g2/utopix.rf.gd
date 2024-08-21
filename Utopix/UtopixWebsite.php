@@ -81,7 +81,7 @@ class UtopixWebsite implements Website
                 $this->categories,
                 $this->authentication
             ),
-            'Users' => new \Utopix\Controllers\Users($this->users),
+            'Users' => new \Utopix\Controllers\Users($this->users, $this->authentication),
             'Categories' => new \Utopix\Controllers\Categories($this->categories),
             'Auth' => new \Utopix\Controllers\Auth($this->users, $this->authentication),
             'Errors' => new \Utopix\Controllers\Errors()

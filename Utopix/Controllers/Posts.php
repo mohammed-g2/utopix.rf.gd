@@ -29,10 +29,13 @@ class Posts implements Controller
      * the website's landing page
      */
     public function homePage(): array {
+        $posts = $this->posts->getAll('updated_at DESC', 11);
+        $trending = $this->posts->getAll('visits DESC', 4);
         return [
             'template' => 'index.html.php',
             'variables' => [
-                'posts' => []
+                'posts' => $posts,
+                'trending' => $trending
             ]
         ];
     }
@@ -41,9 +44,24 @@ class Posts implements Controller
      * method GET, return a list of posts
      */
     public function list(): array {
+        $page = $_GET['page'];
+        $perPage = 10;
+        if (isset($page)) {
+            $posts = $this->posts->getAll('updated_at DESC', $perPage, $page * $perPage);
+        }
+        else {
+            $posts = $this->posts->getAll('updated_at DESC', $perPage);
+        }
         return [
-            'template' => 'posts/list.html.php'
+            'template' => 'posts/list.html.php',
+            'variables' => [
+                'posts' => $posts
+            ]
         ];
+    }
+
+    public function listByCategory(string $category): array { 
+        return [];    
     }
 
     /**
