@@ -184,18 +184,6 @@
                 </div>
             </div>
         </div>
-
-        <nav class="pagination-items my-5">
-            <a href="#" class="text-white">&laquo;</a>
-            <a href="#" class="text-white">1</a>
-            <a href="#" class="text-white">2</a>
-            <span class="text-white">...</span>
-            <a href="#" class="text-white">3</a>
-            <a href="#" class="text-white">&raquo;</a>
-            </ul>
-        </nav>
-
-
     </div>
 
     <!--################# Begin Articles side section #################-->

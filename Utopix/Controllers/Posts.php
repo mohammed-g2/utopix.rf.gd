@@ -45,17 +45,16 @@ class Posts implements Controller
      */
     public function list(): array {
         $page = $_GET['page'] ?? 1;
-        $perPage = 10;
-        if (isset($page)) {
-            $posts = $this->posts->getAll('updated_at DESC', $perPage, $page * $perPage);
-        }
-        else {
-            $posts = $this->posts->getAll('updated_at DESC', $perPage);
-        }
+        $perPage = 5;
+        $pages = ceil($this->posts->total() / $perPage);
+        $posts = $this->posts->getAll('updated_at DESC', $perPage, ($page - 1) * $perPage);
         return [
             'template' => 'posts/list.html.php',
             'variables' => [
-                'posts' => $posts
+                'posts' => $posts,
+                'page' => $page,
+                'perPage' => $perPage,
+                'pages' => $pages
             ]
         ];
     }
@@ -78,6 +77,37 @@ class Posts implements Controller
      * method POST, attempt to create a new post then redirect
      */
     public function create(): array|null {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $errors = [];
+            if (empty($_POST['title'])) {
+                $errors[] = 'post title cannot be empty';
+            }
+            if (empty($_POST['body'])) {
+                $errors[] = 'post content cannot be empty';
+            }
+            if (!empty($this->posts->filterBy(['title' => $_POST['title']]))) {
+                $errors[] = 'please choose another title';
+            }
+            if (empty($errors)) {
+                $this->posts->save([
+                    'title' => $_POST['title'],
+                    'body' => $_POST['body'],
+                    'updated_at' => new \DateTime(),
+                    'user_id' => $this->authentication->getCurrentUer()->id,
+                    'visits' => 0,
+                    'publish' => true,
+                    'img_url' => ''
+                ]);
+                header('location: /posts/list');
+                exit;
+            }
+            else {
+                return [
+                    'template' => 'posts/create.html.php',
+                    'flashedMsgs' => $errors
+                ];
+            }
+        }
         return [
             'template' => 'posts/create.html.php'
         ];

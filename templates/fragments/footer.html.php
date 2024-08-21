@@ -1,5 +1,5 @@
 <!--################# Begin Footer #################-->
-<footer class="row ms-md-0 ms-3 m-0 px-md-5 mb-5">
+<footer id="footer" class="row ms-md-0 ms-3 m-0 px-md-5 mb-5">
     <hr>
     <div class="col-md-6 col-12">
         <h1 class="mb-4" style="font-size:4em;"><span style="color:#c00100;">𝖀</span>𝖙𝖔𝖕𝖎𝖝</h1>

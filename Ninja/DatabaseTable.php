@@ -60,13 +60,14 @@ class DatabaseTable
     /**
      * find an entry by id
      */
-    public function getById(string $id): array | false
+    public function getById(string $id): object | false
     {
         $sql = 'SELECT * FROM `' . $this->table . '` WHERE `' . $this->table . '`.`id` = :id';
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':id', $id);
         $stmt->execute();
-        $entry = $stmt->fetch(PDO::FETCH_ASSOC);
+        $entry = $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
+        $this->className, $this->constructorArgs)[0];
         return $entry;
     }
 

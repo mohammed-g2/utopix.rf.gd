@@ -54,36 +54,34 @@ class EntryPoint
     {
         try {
             $this->checkUri($uri);
-
             if ($uri === '') {
                 $uri = $this->website->getDefaultRoute();
             }
 
             $view = $this->website->getController($uri, $method);
             $authentication = $this->website->getAuth();
-            
+
             if (isset($view)) {
-                if ($view['requireAuth'] && !$authentication->isAuthenticated()) {
+                if (isset($view['requireAuth']) && $view['requireAuth'] && !$authentication->isAuthenticated()) {
                     http_response_code(401);
                     header('location: /error/401');
                     exit;
                 } 
-                else if ($view['permissionsRequired'] !== 0) {
+                else if (isset($view['permissionsRequired']) && $view['permissionsRequired'] !== 0) {
                     $user = $authentication->getCurrentUer();
-                    if ($user !== false && !$user->hasPermission($view['permissionRequired'])) {
+                    if ($user !== false && !$user->hasPermission($view['permissionsRequired'])) {
                         http_response_code(403);
                         header('location: /error/403');
                         exit;
                     }
                 }
-                else {
-                    $controller = $view['controllerClass'];
-                    $action = $view['controllerView'];
-                    if (is_callable([$controller, $action])) {
-                        $page = $controller->$action(...$view['vars']);
-                        $variables = $page['variables'] ?? [];
-                        $content = $this->loadTemplate($page['template'], $variables);
-                    }
+
+                $controller = $view['controllerClass'];
+                $action = $view['controllerView'];
+                if (is_callable([$controller, $action])) {
+                    $page = $controller->$action(...$view['vars']);
+                    $variables = $page['variables'] ?? [];
+                    $content = $this->loadTemplate($page['template'], $variables);
                 }
             } 
             else {
@@ -91,7 +89,8 @@ class EntryPoint
                 header('location: /error/404');
                 exit;
             }
-        } catch (PDOException $e) {
+        } 
+        catch (PDOException $e) {
             // $content = 'Unable to connect to database <br>'
             //     . 'Error: ' . $e->getMessage() . '<br>'
             //     . 'File: '  . $e->getFile()    . '<br>'
