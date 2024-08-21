@@ -55,4 +55,13 @@ class User
     {
         return $this->permissions & $permission;
     }
+
+    public static function adminPermissions(): int
+    {
+        return \Utopix\Entity\User::EDIT_POST
+            + \Utopix\Entity\User::DELETE_POST
+            + \Utopix\Entity\User::EDIT_CATEGORY
+            + \Utopix\Entity\User::DELETE_CATEGORY
+            + \Utopix\Entity\User::EDIT_USER_ACCESS;
+    }
 }

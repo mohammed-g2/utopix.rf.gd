@@ -74,12 +74,23 @@ class Users implements Controller
             }
 
             if (empty($errors)) {
-                $this->users->save([
-                    'username' => $_POST['username'],
-                    'email' => $_POST['email'],
-                    'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
-                    'permissions' => 0
-                ]);
+                $env = parse_ini_file(__DIR__ . '/../../.env');
+                if ($_POST['username'] === $env['ADMIN_USERNAME'] && $_POST['email'] === $env['ADMIN_EMAIL']) {
+                    $this->users->save([
+                        'username' => $_POST['username'],
+                        'email' => $_POST['email'],
+                        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                        'permissions' => \Utopix\Entity\User::adminPermissions()
+                    ]);
+                }
+                else {
+                    $this->users->save([
+                        'username' => $_POST['username'],
+                        'email' => $_POST['email'],
+                        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                        'permissions' => 0
+                    ]);
+                }
                 header('location: /auth/login');
                 exit;
             }
