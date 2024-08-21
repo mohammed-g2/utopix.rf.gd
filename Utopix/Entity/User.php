@@ -10,7 +10,7 @@ class User
     public string $username;
     public string $email;
     public string $password;
-    public string $about_me;
+    public ?string $about_me;
     public int $permissions;
     private DatabaseTable $posts;
     private ?array $userPosts;

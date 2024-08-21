@@ -54,11 +54,17 @@ class Users implements Controller
             if (empty($_POST['username'])) {
                 $errors[] = 'invalid username';
             }
+            if (strlen($_POST['username']) < 3) {
+                $errors[] = 'username cannot be less than 3 characters';
+            }
             if (empty($_POST['email'])) {
                 $errors[] = 'invalid email';
             }
             if (empty($_POST['password'])) {
                 $errors[] = 'invalid password';
+            }
+            if (strlen($_POST['password']) < 6) {
+                $errors[] = 'password cannot be less than 6 characters';
             }
             if (!empty($this->users->filterBy(['username' => $_POST['username']]))) {
                 $errors[] = 'please choose a different username';
@@ -79,9 +85,9 @@ class Users implements Controller
             }
             else {
                 return [
-                    'template' => 'auth/register.html.php',
+                    'template' => 'users/register.html.php',
+                    'flashedMsgs' => $errors,
                     'variables' => [
-                        'errors' => $errors,
                         'username' => $_POST['username'],
                         'email' => $_POST['email']
                     ]
@@ -89,7 +95,7 @@ class Users implements Controller
             }
         }
         return [
-            'template' => 'auth/login.html.php'
+            'template' => 'users/register.html.php'
         ];
     }
 

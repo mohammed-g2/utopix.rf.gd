@@ -146,8 +146,8 @@ class UtopixWebsite implements Website
     public function getTemplateContext(): array
     {
         return [
-            'current_user' => $this->authentication->getCurrentUer(),
-            'is_authenticated' => $this->authentication->isAuthenticated(),
+            'currentUser' => $this->authentication->getCurrentUer(),
+            'isAuthenticated' => $this->authentication->isAuthenticated(),
             'permissions' => []
         ];
     }

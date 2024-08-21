@@ -101,6 +101,9 @@ class EntryPoint
 
         $layoutVariables = $this->website->getTemplateContext();
         $layoutVariables['content'] = $content;
+        if (isset($page['flashedMsgs'])) {
+            $layoutVariables['flashedMsgs'] = $page['flashedMsgs'];
+        }
         echo $this->loadTemplate('layout.html.php', $layoutVariables);
     }
 }

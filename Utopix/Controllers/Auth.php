@@ -22,14 +22,44 @@ class Auth
     }
 
     public function login()
-    {
-        return [
-            'template' => 'auth/login.html.php'
-        ];
+    {        
+        if ($this->authentication->isAuthenticated()) {
+            header('location: /');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($this->authentication->login($_POST['email'], $_POST['password'])) {
+                header('location: /');
+                exit;
+            }
+            else {
+                $errors = ['could not login, please choose a different username or password'];
+                return [
+                    'template' => 'auth/login.html.php',
+                    'flashedMsgs' => $errors,
+                    'variables' => [
+                        'email' => $_POST['email']
+                    ]
+                ];
+            }
+        }
+        else {
+            return [
+                'template' => 'auth/login.html.php'
+            ];
+        }
     }
 
     public function logout()
     {
-        
+        if (!$this->authentication->isAuthenticated()) {
+            header('location: /');
+            exit;
+        }
+
+        $this->authentication->logout();
+        header('location: /');
+        exit;
     }
 }

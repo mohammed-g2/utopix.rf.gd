@@ -17,8 +17,21 @@
 <body>
   <div class="bg-black py-2 px-3 d-flex justify-content-between text-white">
     <div>
-      <small><a href="/auth/login" class="text-white"><i class="zmdi zmdi-account"></i> Login</a></small> /
-      <small><a href="/users/create" class="text-white">Sign up</a></small>
+      <?php if ($isAuthenticated): ?>
+        <small class="me-2">Welcome, <?= $currentUser->username ?></small> /
+        <div class="btn-group">
+          <button class="btn btn-dark btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="zmdi zmdi-settings"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
+          </ul>
+        </div>
+          <?php else: ?>
+            <small><a href="/auth/login" class="text-white"><i class="zmdi zmdi-account"></i> Login</a></small> /
+            <small><a href="/users/create" class="text-white">Sign up</a></small>
+          <?php endif; ?>
     </div>
     <div>
       <small class="mx-2"><a href="#" class="text-white"><i class="zmdi zmdi-hc-lg zmdi-facebook-box"></i></a></small>
@@ -37,6 +50,8 @@
         </h1>
       </div>
     </div>
+
+    <?php include __DIR__ . '/../templates/fragments/flashedmsgs.html.php'; ?>
 
     <?php include __DIR__ . '/../templates/fragments/navbar.html.php'; ?>
 
