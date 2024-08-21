@@ -24,6 +24,9 @@
             <i class="zmdi zmdi-settings"></i>
           </button>
           <ul class="dropdown-menu">
+            <?php if ($currentUser->hasPermission($permissions['EDIT_POST'])): ?>
+              <li><a class="dropdown-item" href="/posts/create">Write</a></li>
+            <?php endif; ?>
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
           </ul>

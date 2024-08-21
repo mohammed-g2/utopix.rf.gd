@@ -148,7 +148,13 @@ class UtopixWebsite implements Website
         return [
             'currentUser' => $this->authentication->getCurrentUer(),
             'isAuthenticated' => $this->authentication->isAuthenticated(),
-            'permissions' => []
+            'permissions' => [
+                'EDIT_POST' => \Utopix\Entity\User::EDIT_POST,
+                'DELETE_POST' => \Utopix\Entity\User::DELETE_POST,
+                'EDIT_CATEGORY' => \Utopix\Entity\User::EDIT_CATEGORY,
+                'DELETE_CATEGORY' => \Utopix\Entity\User::DELETE_CATEGORY,
+                'EDIT_USER_ACCESS' => \Utopix\Entity\User::EDIT_USER_ACCESS
+            ]
         ];
     }
 

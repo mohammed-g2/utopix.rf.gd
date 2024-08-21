@@ -55,32 +55,4 @@ class User
     {
         return $this->permissions & $permission;
     }
-
-    /**
-     * add new permission to user
-     */
-    public function addPermission(int $permission)
-    {
-        if (!$this->hasPermission($permission)) {
-            $this->permissions += $permission;
-        }
-    }
-
-    /**
-     * remove permission from user
-     */
-    public function removePermission($permission) 
-    {
-        if ($this->hasPermission($permission)) {
-            $this->permissions -= $permission;
-        }
-    }
-
-    /**
-     * remove all permissions from user
-     */
-    public function resetPermissions()
-    {
-        $this->permissions = 0;
-    }
 }
