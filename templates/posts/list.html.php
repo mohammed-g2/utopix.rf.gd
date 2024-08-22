@@ -1,5 +1,11 @@
 <div class="container my-5">
-    <h2 class="mb-4 pb-2 border-bottom">All Posts</h2>
+    <h2 class="mb-4 pb-2 border-bottom">
+        <?php if (isset($variables['category'])): ?>
+            <?=$variables['category']->name?>
+        <?php else: ?>
+            All Posts
+        <?php endif; ?>
+    </h2>
     <div class="row">
         <div class="col-lg-8 col-12">
             <?php foreach ($variables['posts'] as $post): ?>
@@ -32,17 +38,17 @@
             
             <nav class="pagination-items my-5">
                 <?php if ($variables['page'] > 1): ?>
-                    <a href="<?= '/posts/list?page=' . $variables['page'] - 1 ?>" class="text-white">&laquo;</a>
+                    <a href="<?= $variables['url'] . '?page=' . $variables['page'] - 1 ?>" class="text-white">&laquo;</a>
                 <?php else: ?>
                     <a href="#" class="text-white">&laquo;</a>
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $variables['pages']; $i++): ?>
-                    <a href="/posts/list?page=<?= $i ?>" class="text-white"><?= $i ?></a>
+                    <a href="<?= $variables['url'] . '?page='?><?= $i ?>" class="text-white"><?= $i ?></a>
                 <?php endfor; ?>
 
                 <?php if ($variables['page'] < $variables['pages']): ?>
-                    <a href="<?= '/posts/list?page=' . $variables['page'] + 1 ?>" class="text-white">&raquo;</a>
+                    <a href="<?= $variables['url'] . '?page=' . $variables['page'] + 1 ?>" class="text-white">&raquo;</a>
                 <?php else: ?>
                     <a href="#" class="text-white">&raquo;</a>
                 <?php endif; ?>

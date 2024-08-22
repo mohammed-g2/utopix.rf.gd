@@ -38,7 +38,24 @@ class Categories implements Controller
      */
     public function get(string $id): array
     {
-        return [];
+        $category = $this->categories->getById($id);
+        $posts = $category->getPosts();
+
+        $page = $_GET['page'] ?? 1;
+        $perPage = 5;
+        $pages = ceil(sizeof($posts) / $perPage);
+
+        return [
+            'template' => 'posts/list.html.php',
+            'variables' => [
+                'posts' => $posts,
+                'category' => $category,
+                'page' => $page,
+                'perPage' => $perPage,
+                'pages' => $pages,
+                'url' => '/categories/get/' . $id
+                ]
+        ];
     }
 
     /**

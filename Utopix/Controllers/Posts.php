@@ -54,7 +54,8 @@ class Posts implements Controller
                 'posts' => $posts,
                 'page' => $page,
                 'perPage' => $perPage,
-                'pages' => $pages
+                'pages' => $pages,
+                'url' => '/posts/list'
             ]
         ];
     }

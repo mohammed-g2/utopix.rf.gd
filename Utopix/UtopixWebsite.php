@@ -59,7 +59,10 @@ class UtopixWebsite implements Website
     /** 
      * return an array of:
      * ['controllerClass' => classInstance,
-     * 'controllerView' => 'methodName',
+     * 'controllerView' => [
+     *      'method' => 'methodName',
+     *      'vars' => 'method variables'
+     * ],
      * 'requireAuth' => bool,
      * 'permissionsRequired' => int]
      */
@@ -86,9 +89,17 @@ class UtopixWebsite implements Website
         ];
 
         if ($controllerName) {
-            $this->routes[$uri]['methods'][$method]['controllerClass'] = $controllers[$controllerName];
-            $this->routes[$uri]['methods'][$method]['vars'] = $uriParts['vars'];
-            return $this->routes[$uri]['methods'][$method];
+            $_uri = $uriParts['main'][0] . '/' . $uriParts['main'][1];
+            $result = [
+                'controllerClass' => $controllers[$controllerName],
+                'controllerView' => [
+                    'method' => $this->routes[$_uri]['methods'][$method]['controllerView'],
+                    'vars' => $uriParts['vars']
+                ],
+                'requireAuth' => $this->routes[$_uri]['methods'][$method]['requireAuth'],
+                'permissionsRequired' => $this->routes[$_uri]['methods'][$method]['permissionsRequired']
+            ];
+            return $result;
         }
         else {
             return null;

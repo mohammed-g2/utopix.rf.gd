@@ -79,9 +79,9 @@ class EntryPoint
                 }
 
                 $controller = $view['controllerClass'];
-                $action = $view['controllerView'];
+                $action = $view['controllerView']['method'];
                 if (is_callable([$controller, $action])) {
-                    $page = $controller->$action(...$view['vars']);
+                    $page = $controller->$action(...$view['controllerView']['vars']);
                     $variables = $page['variables'] ?? [];
                     $content = $this->loadTemplate($page['template'], $variables);
                 }
