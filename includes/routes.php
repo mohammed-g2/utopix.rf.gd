@@ -43,3 +43,4 @@ $website->addRoute('categories/delete', ['Post'], ['Categories', 'delete'],
 $website->addRoute('error/404', ['GET'], ['Errors', 'pageNotFound']);
 $website->addRoute('error/401', ['GET'], ['Errors', 'authenticationRequired']);
 $website->addRoute('error/403', ['GET'], ['Errors', 'forbidden']);
+$website->addRoute('error/500', ['GET'], ['Errors', 'InternalServerError']);

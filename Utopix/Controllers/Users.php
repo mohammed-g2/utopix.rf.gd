@@ -10,11 +10,13 @@ class Users implements Controller
 {
     private DatabaseTable $users;
     private Authentication $authentication;
+    private array $env;
 
-    public function __construct(DatabaseTable $users, Authentication $authentication)
+    public function __construct(DatabaseTable $users, Authentication $authentication, array $env)
     {
         $this->users = $users;
         $this->authentication = $authentication;
+        $this->env = $env;
     }
 
     public function __toString(): string
@@ -74,8 +76,8 @@ class Users implements Controller
             }
 
             if (empty($errors)) {
-                $env = parse_ini_file(__DIR__ . '/../../.env');
-                if ($_POST['username'] === $env['ADMIN_USERNAME'] && $_POST['email'] === $env['ADMIN_EMAIL']) {
+                if ($_POST['username'] === $this->env['ADMIN_USERNAME'] 
+                        && $_POST['email'] === $this->env['ADMIN_EMAIL']) {
                     $this->users->save([
                         'username' => $_POST['username'],
                         'email' => $_POST['email'],

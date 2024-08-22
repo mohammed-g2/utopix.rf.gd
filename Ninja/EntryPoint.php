@@ -52,7 +52,7 @@ class EntryPoint
     /**
      * run the application
      */
-    public function run(string $uri, string $method)
+    public function run(string $uri, string $method, array $env)
     {
         try {
             $this->checkUri($uri);
@@ -81,9 +81,24 @@ class EntryPoint
                 $controller = $view['controllerClass'];
                 $action = $view['controllerView']['method'];
                 if (is_callable([$controller, $action])) {
-                    $page = $controller->$action(...$view['controllerView']['vars']);
-                    $variables = $page['variables'] ?? [];
-                    $content = $this->loadTemplate($page['template'], $variables);
+                    try {
+                        $page = $controller->$action(...$view['controllerView']['vars']);
+                        $variables = $page['variables'] ?? [];
+                        $content = $this->loadTemplate($page['template'], $variables);
+                    }
+                    catch (\Error $e) {
+                        if ($env['ENV'] === 'development') {
+                            $content = 'Unable to connect to database <br>'
+                            . 'Error: ' . $e->getMessage() . '<br>'
+                            . 'File: '  . $e->getFile()    . '<br>'
+                            . 'Line: '  . $e->getLine();
+                        }
+                        else {
+                            http_response_code(500);
+                            header('location: /error/500');
+                            exit;
+                        }
+                    }
                 }
             } 
             else {
@@ -93,11 +108,17 @@ class EntryPoint
             }
         } 
         catch (PDOException $e) {
-            $content = 'Unable to connect to database <br>'
+            if ($env['ENV'] === 'development') {
+                $content = 'Unable to connect to database <br>'
                 . 'Error: ' . $e->getMessage() . '<br>'
                 . 'File: '  . $e->getFile()    . '<br>'
                 . 'Line: '  . $e->getLine();
-            // $content = 'An error occurred';
+            }
+            else {
+                http_response_code(500);
+                header('location: /error/500');
+                exit;
+            }            
         }
 
         $layoutVariables = [];

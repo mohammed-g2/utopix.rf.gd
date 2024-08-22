@@ -29,7 +29,14 @@ class Errors
     public function forbidden()
     {
         return [
-            'template' => 'error/403.html.php'
+            'template' => 'errors/403.html.php'
+        ];
+    }
+
+    public function InternalServerError()
+    {
+        return [
+            'template' => 'errors/500.html.php'
         ];
     }
 }
