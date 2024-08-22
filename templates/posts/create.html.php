@@ -4,13 +4,9 @@
 <script src="/assets/js/write.js"></script>
 
 <div class="container-fluid px-0 mx-0 h-100">
-    <form method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="banner">
             <img src="" id="img-preview" class="img-preview">
-            <input name="img" type="file" hidden="true" id="banner-upload" class="img-upload" accept="image/*" onclick="imgUpload()">
-            <label for="banner-upload" class="banner-upload-btn">
-                <i class="zmdi zmdi-upload"></i>
-            </label>
         </div>
 
         <div class="blog">
@@ -48,7 +44,6 @@
         <div class="modal-dialog">
             <div class="modal-content bg-warning border-0">
                 <div class="modal-header border-bottom border-dark">
-                    <span class="material-icons me-2">error_outline</span>
                     An Error ocurred
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

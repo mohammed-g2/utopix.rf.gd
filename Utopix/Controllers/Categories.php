@@ -49,6 +49,7 @@ class Categories implements Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
+
             if (empty($_POST['name'])) {
                 $errors[] = 'name cannot be empty';
             }
@@ -58,13 +59,36 @@ class Categories implements Controller
             if (empty($_POST['description'])) {
                 $errors[] = 'description cannot be empty';
             }
+            if (empty($_FILES['img']['tmp_name'])) {
+                $errors[] = 'you did not choose an image';
+            }
+            else {
+                if (getimagesize($_FILES['img']['tmp_name']) === false) {
+                    $errors[] = 'file is not an image';
+                }
+            }
+            if ($_FILES['img']['size'] > 1024 * 1024) {
+                $errors[] = 'image is larger than 1 MB';
+            }
+            $imageFileType = strtolower(
+                pathinfo(basename($_FILES["img"]["name"]), PATHINFO_EXTENSION));
+            $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+            if (!in_array($imageFileType, $allowedExtensions)) {
+                $errors[] = 'file extension not allowed';
+            }
 
             if (empty($errors)) {
+                $imgName = rand() . '-' . $_FILES['img']['name'];
+                $saveFolder = __DIR__ . '/../../public/assets/images/' . $imgName;
+
                 $this->categories->save([
                     'name' => $_POST['name'],
-                    'description' => $_POST['description']
+                    'description' => $_POST['description'],
+                    'img_url' => '/assets/images/' . $imgName
                 ]);
-                header('location: categories/list');
+
+                echo move_uploaded_file($_FILES['img']['tmp_name'], $saveFolder);
+                header('Location: /categories/list');
                 exit;
             }
             else {
