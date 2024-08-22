@@ -24,7 +24,13 @@ class Categories implements Controller
      */
     public function list(): array
     {
-        return [];
+        $categories = $this->categories->getAll();
+        return [
+            'template' => 'categories/list.html.php',
+            'variables' => [
+                'categories' => $categories
+            ]
+        ];
     }
 
     /**
@@ -41,7 +47,42 @@ class Categories implements Controller
      */
     public function create(): array|null
     {
-        return [];
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $errors = [];
+            if (empty($_POST['name'])) {
+                $errors[] = 'name cannot be empty';
+            }
+            if (!empty($this->categories->filterBy(['name' => $_POST['name']])[0])) {
+                $errors[] = 'category name already in use';
+            }
+            if (empty($_POST['description'])) {
+                $errors[] = 'description cannot be empty';
+            }
+
+            if (empty($errors)) {
+                $this->categories->save([
+                    'name' => $_POST['name'],
+                    'description' => $_POST['description']
+                ]);
+                header('location: categories/list');
+                exit;
+            }
+            else {
+                return [
+                    'template' => 'categories/create.html.php',
+                    'flashedMsgs' => $errors,
+                    'variables' => [
+                        'category' => [
+                            'name' => $_POST['name'],
+                            'description' => $_POST['description']
+                        ]
+                    ]
+                ];
+            }
+        }
+        return [
+            'template' => 'categories/create.html.php'
+        ];
     }
 
     /**

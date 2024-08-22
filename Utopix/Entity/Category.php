@@ -8,7 +8,8 @@ class Category
 {
     public int $id;
     public string $name;
-    public string $description;
+    public ?string $description;
+    public ?string $img_url;
     private DatabaseTable $posts;
     private DatabaseTable $postCategory;
 

@@ -40,7 +40,7 @@ class UtopixWebsite implements Website
             'categories', 
             'id',
         'Utopix\Entity\Category',
-        [&$this->posts]);
+        [&$this->posts, &$this->postCategories]);
         $this->postCategories = new DatabaseTable($this->pdo, 'post_category', 'category_id');
         $this->authentication = new Authentication($this->users, 'email', 'password');
     }

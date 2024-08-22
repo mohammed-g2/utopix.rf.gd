@@ -30,7 +30,9 @@ class EntryPoint
      */
     private function loadTemplate(string $file_name, array $variables): string
     {
+        $templateContext = $this->website->getTemplateContext();
         extract($variables);
+        extract($templateContext);
         ob_start();
         include __DIR__ . '/../templates/' . $file_name;
         return ob_get_clean();
@@ -98,7 +100,7 @@ class EntryPoint
             $content = 'An error occurred';
         }
 
-        $layoutVariables = $this->website->getTemplateContext();
+        $layoutVariables = [];
         $layoutVariables['content'] = $content;
         if (isset($page['flashedMsgs'])) {
             $layoutVariables['flashedMsgs'] = $page['flashedMsgs'];

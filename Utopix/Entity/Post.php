@@ -31,7 +31,7 @@ class Post
     public function getUser(): object
     {
         if (empty($this->user)) {
-            $this->user = $this->users->getById(strval($this->id));
+            $this->user = $this->users->getById(strval($this->user_id));
         }
         return $this->user;
     }
