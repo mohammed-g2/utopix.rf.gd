@@ -89,29 +89,14 @@ class Posts implements Controller
             if (!empty($this->posts->filterBy(['title' => $_POST['title']]))) {
                 $errors[] = 'please choose another title';
             }
-            if (empty($_FILES['img']['tmp_name'])) {
-                $errors[] = 'you did not choose an image';
-            }
-            else {
-                if (getimagesize($_FILES['img']['tmp_name']) === false) {
-                    $errors[] = 'file is not an image';
-                }
-            }
-            
-            if ($_FILES['img']['size'] > 1024 * 1024) {
-                $errors[] = 'image is larger than 1 MB';
-            }
-            $imageFileType = strtolower(
-                pathinfo(basename($_FILES["img"]["name"]), PATHINFO_EXTENSION));
-            $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-            if (!in_array($imageFileType, $allowedExtensions)) {
-                $errors[] = 'file extension not allowed';
+
+            $upload = upload_image($_FILES['img']);
+
+            if (is_array($upload)) {
+                $errors = array_merge($upload, $errors);
             }
 
             if (empty($errors)) {
-                $imgName = rand() . '-' . $_FILES['img']['name'];
-                $saveFolder = __DIR__ . '/../../public/assets/images/' . $imgName;
-
                 $post = $this->posts->save([
                     'title' => $_POST['title'],
                     'body' => $_POST['body'],
@@ -119,11 +104,10 @@ class Posts implements Controller
                     'user_id' => $this->authentication->getCurrentUer()->id,
                     'visits' => 0,
                     'publish' => true,
-                    'img_url' => '/assets/images/' . $imgName,
+                    'img_url' => '/assets/images/' . $upload,
                     'category_id' => $_POST['category_id']
                 ]);
 
-                echo move_uploaded_file($_FILES['img']['tmp_name'], $saveFolder);
                 header('location: /posts/list');
                 exit;
             }
