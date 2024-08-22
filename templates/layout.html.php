@@ -31,7 +31,6 @@
               <li><a class="dropdown-item" href="/categories/create">New Category</a></li>
               <li><a class="dropdown-item" href="/categories/list">All Categories</a></li>
             <?php endif; ?>
-            <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
           </ul>
         </div>

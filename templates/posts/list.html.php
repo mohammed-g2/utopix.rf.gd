@@ -11,7 +11,7 @@
                         <div class="col-md-8">
                             <div class="card-body bg-none pt-0">
                                 <p class="card-text d-inline-block py-1 px-2 mt-md-0 mt-2"
-                                    style="background-color:#8b1d15; color:#fff;">Category
+                                    style="background-color:#8b1d15; color:#fff;"><?=$post->getCategory()->name ?? 'None'?>
                                 </p>
                                 <a href="<?= '/posts/get/' . $post->id ?>">
                                     <h5 class="card-title"><?=$post->title?></h5>

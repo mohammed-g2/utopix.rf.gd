@@ -13,7 +13,6 @@ class UtopixWebsite implements Website
     private ?DatabaseTable $users;
     private ?DatabaseTable $posts;
     private ?DatabaseTable $categories;
-    private ?DatabaseTable $postCategories;
     private Authentication $authentication;
     private array $routes;
 
@@ -33,15 +32,14 @@ class UtopixWebsite implements Website
             'posts',
             'id',
             '\Utopix\Entity\Post',
-            [&$this->users, &$this->postCategories]
+            [&$this->users, &$this->categories]
         );
         $this->categories = new DatabaseTable(
             $this->pdo, 
             'categories', 
             'id',
         'Utopix\Entity\Category',
-        [&$this->posts, &$this->postCategories]);
-        $this->postCategories = new DatabaseTable($this->pdo, 'post_category', 'category_id');
+        [&$this->posts]);
         $this->authentication = new Authentication($this->users, 'email', 'password');
     }
 

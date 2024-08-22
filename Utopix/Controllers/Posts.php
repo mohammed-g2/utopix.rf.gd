@@ -89,14 +89,15 @@ class Posts implements Controller
                 $errors[] = 'please choose another title';
             }
             if (empty($errors)) {
-                $this->posts->save([
+                $post = $this->posts->save([
                     'title' => $_POST['title'],
                     'body' => $_POST['body'],
-                    'updated_at' => new \DateTime(),
+                    'updated_at' => new DateTime(),
                     'user_id' => $this->authentication->getCurrentUer()->id,
                     'visits' => 0,
                     'publish' => true,
-                    'img_url' => ''
+                    'img_url' => '',
+                    'category_id' => $_POST['category_id']
                 ]);
                 header('location: /posts/list');
                 exit;
@@ -104,12 +105,23 @@ class Posts implements Controller
             else {
                 return [
                     'template' => 'posts/create.html.php',
-                    'flashedMsgs' => $errors
+                    'flashedMsgs' => $errors,
+                    'variables' => [
+                        'post' => [
+                            'title' => $_POST['title'],
+                            'body' => $_POST['body'],
+                            'category_id' => $_POST['category_id'],
+                        ],
+                        'categories' => $this->categories->getAll()
+                    ]
                 ];
             }
         }
         return [
-            'template' => 'posts/create.html.php'
+            'template' => 'posts/create.html.php',
+            'variables' => [
+                'categories' => $this->categories->getAll()
+            ]
         ];
     }
 

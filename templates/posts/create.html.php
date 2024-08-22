@@ -14,8 +14,18 @@
         </div>
 
         <div class="blog">
-            <input name="title" class="title" type="text" id="post-title" placeholder="Post Title...">
-            <textarea name="body" class="article" id="post-body" placeholder='Start writing here...'></textarea>
+            <input 
+                name="title" 
+                value="<?=$variables['post']['title'] ?? '' ?>"
+                class="title" 
+                type="text" 
+                id="post-title" 
+                placeholder="Post Title...">
+            <textarea 
+                name="body" 
+                class="article" 
+                id="post-body" 
+                placeholder='Start writing here...'><?=$variables['post']['body'] ?? ''?></textarea>
         </div>
 
         <div class="blog-options">
@@ -25,11 +35,10 @@
             <input name="img" type="file" id="image-upload" class="img-upload" hidden="true" accept="image/*" onclick="imgUpload()">
             <label for="image-upload" class="btn btn-secondary px-4">Upload Image</label>
 
-            <select class="form-select form-select-sm ms-3" style="max-width:140px;">
-                <option selected>Category</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+            <select name="category_id" class="form-select form-select-sm ms-3 py-2" style="max-width:160px;">
+                <?php foreach ($variables['categories'] as $cat): ?>
+                    <option value="<?=$cat->id?>"><?=$cat->name?></option>
+                <?php endforeach; ?>
             </select>
         </div>
     </form>

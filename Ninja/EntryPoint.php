@@ -93,11 +93,11 @@ class EntryPoint
             }
         } 
         catch (PDOException $e) {
-            // $content = 'Unable to connect to database <br>'
-            //     . 'Error: ' . $e->getMessage() . '<br>'
-            //     . 'File: '  . $e->getFile()    . '<br>'
-            //     . 'Line: '  . $e->getLine();
-            $content = 'An error occurred';
+            $content = 'Unable to connect to database <br>'
+                . 'Error: ' . $e->getMessage() . '<br>'
+                . 'File: '  . $e->getFile()    . '<br>'
+                . 'Line: '  . $e->getLine();
+            // $content = 'An error occurred';
         }
 
         $layoutVariables = [];

@@ -13,14 +13,15 @@ class Post
     public int $visits;
     public bool $publish;
     public int $user_id;
+    public ?int $category_id;
     private DatabaseTable $users;
-    private DatabaseTable $postCategories;
+    private DatabaseTable $categories;
     private ?object $user;
 
-    public function __construct(DatabaseTable $users, DatabaseTable $postCategories)
+    public function __construct(DatabaseTable $users, DatabaseTable $categories)
     {
         $this->users = $users;
-        $this->postCategories = $postCategories;
+        $this->categories = $categories;
     }
 
     public function __toString(): string
@@ -36,9 +37,13 @@ class Post
         return $this->user;
     }
 
-    public function addCategory(string $id)
+    public function getCategory()
     {
-        $postCategory = ['post_id' => $this->id, 'category_id' => $id];
-        $this->postCategories->save($postCategory);
+        if (isset($this->category_id)) {
+            return $this->categories->getById($this->category_id);
+        }
+        else {
+            return null;
+        }
     }
 }

@@ -11,24 +11,15 @@ class Category
     public ?string $description;
     public ?string $img_url;
     private DatabaseTable $posts;
-    private DatabaseTable $postCategory;
 
-    public function __construct(DatabaseTable $posts, DatabaseTable $postCategory)
+    public function __construct(DatabaseTable $posts)
     {
         $this->posts = $posts;
-        $this->postCategory = $postCategory;
     }
 
     public function getPosts(?string $orderBy=null, int $limit=0, int $offset=0): array
     {
-        $results = $this->postCategory->filterBy(
-            ['category_id' => $this->id], $orderBy, $limit, $offset);
-        $posts = [];
-        foreach ($results as $result) {
-            $post = $this->posts->getById($result->post_id);
-            $posts[] = $post;
-        }
-
+        $posts = $this->posts->filterBy(['category_id' => $this->id]);
         return $posts;
     }
 }
