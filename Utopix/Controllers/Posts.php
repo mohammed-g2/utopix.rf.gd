@@ -119,7 +119,7 @@ class Posts implements Controller
                     'user_id' => $this->authentication->getCurrentUer()->id,
                     'visits' => 0,
                     'publish' => true,
-                    'img_url' => '',
+                    'img_url' => '/assets/images/' . $imgName,
                     'category_id' => $_POST['category_id']
                 ]);
 
