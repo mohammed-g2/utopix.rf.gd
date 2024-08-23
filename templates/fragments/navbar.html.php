@@ -11,22 +11,12 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/posts/list">All Posts</a>
+                    <a class="nav-link" href="/posts/list">Posts</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Categories
-                    </a>
-                    <ul class="dropdown-menu rounded-0">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="/categories/list">Categories</a>
                 </li>
+                
                 <li class="nav-item">
                     <button class="btn mt-md-5 rounded-0" id="search-btn">
                         <i class="zmdi zmdi-hc-lg zmdi-search"></i>

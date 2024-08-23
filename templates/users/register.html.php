@@ -6,11 +6,11 @@
         <hr>
         <div class="mb-3 mt-4">
           <label for="email" class="form-label">Email</label>
-          <input value="<?= $variables['email'] ?? '' ?>" name="email" type="email" class="form-control" id="email" placeholder="email@example.com">
+          <input value="<?= htmlspecialchars($variables['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>" name="email" type="email" class="form-control" id="email" placeholder="email@example.com">
         </div>
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
-          <input value="<?= $variables['username'] ?? '' ?>" name="username" type="text" class="form-control" id="username">
+          <input value="<?= htmlspecialchars($variables['username'] ?? '', ENT_QUOTES, 'UTF-8') ?>" name="username" type="text" class="form-control" id="username">
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>

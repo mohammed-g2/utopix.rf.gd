@@ -1,7 +1,7 @@
 <div class="container my-5">
     <h2 class="mb-4 pb-2 border-bottom">
         <?php if (isset($variables['category'])): ?>
-            <?=$variables['category']->name?>
+            <?=htmlspecialchars($variables['category']->name, ENT_QUOTES, 'UTF-8')?>
         <?php else: ?>
             All Posts
         <?php endif; ?>
@@ -18,17 +18,17 @@
                             <div class="card-body bg-none pt-0">
                                 <p class="card-text d-inline-block py-1 px-2 mt-md-0 mt-2"
                                     style="background-color:#8b1d15; color:#fff;">
-                                    <?= $post->getCategory()->name ?? 'None' ?>
+                                    <?= htmlspecialchars($post->getCategory()->name ?? 'None', ENT_QUOTES, 'UTF-8') ?>
                                 </p>
 
                                 <a href="<?= '/posts/get/' . $post->id ?>">
-                                    <h5 class="card-title"><?= $post->title ?></h5>
+                                    <h5 class="card-title"><?= htmlspecialchars($post->title, ENT_QUOTES, 'UTF-8') ?></h5>
                                 </a>
                                 <p class="card-text">
                                     <small class="fst-italic">
-                                        By <span class="text-danger me-2"><?= $post->getUser()->username ?></span> /
+                                        By <span class="text-danger me-2"><?= htmlspecialchars($post->getUser()->username, ENT_QUOTES, 'UTF-8') ?></span> /
                                         <i class="zmdi zmdi-time ms-2"></i> <span class="me-2 time"><?= $post->updated_at ?></span> /
-                                        <i class="zmdi zmdi-comments ms-2"></i> 15
+                                        <i class="zmdi zmdi-comments ms-2"></i>
                                     </small>
                                 </p>
                                 <p class="card-text"><?= substr($post->body, 0, 100) ?>...</p>

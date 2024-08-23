@@ -12,7 +12,7 @@
         <div class="blog">
             <input 
                 name="title" 
-                value="<?=$variables['post']['title'] ?? '' ?>"
+                value="<?=htmlspecialchars($variables['post']['title'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                 class="title" 
                 type="text" 
                 id="post-title" 
@@ -21,7 +21,7 @@
                 name="body" 
                 class="article" 
                 id="post-body" 
-                placeholder='Start writing here...'><?=$variables['post']['body'] ?? ''?></textarea>
+                placeholder='Start writing here...'><?= htmlspecialchars($variables['post']['body'] ?? '', ENT_QUOTES, 'UTF-8')?></textarea>
         </div>
 
         <div class="blog-options">
@@ -33,7 +33,7 @@
 
             <select name="category_id" class="form-select form-select-sm ms-3 py-2" style="max-width:160px;">
                 <?php foreach ($variables['categories'] as $cat): ?>
-                    <option value="<?=$cat->id?>"><?=$cat->name?></option>
+                    <option value="<?=$cat->id?>"><?=htmlspecialchars($cat->name, ENT_QUOTES, 'UTF-8')?></option>
                 <?php endforeach; ?>
             </select>
         </div>

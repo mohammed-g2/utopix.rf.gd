@@ -5,9 +5,13 @@
                 <a href="/categories/get/<?= $category->id ?>">
                     <div class="card">
                         <img src="<?= $category->img_url ?? '' ?>" class="card-img-top">
-                        <h5 class="card-title pt-2 ps-2"><?= $category->name ?></h5>
+                        <h5 class="card-title pt-2 ps-2">
+                            <?= htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8') ?>
+                        </h5>
                         <div class="card-body">
-                            <p class=""><?= $category->description ?></p>
+                            <p class="">
+                                <?= htmlspecialchars($category->description, ENT_QUOTES, 'UTF-8') ?>
+                            </p>
                         </div>
                     </div>
                 </a>

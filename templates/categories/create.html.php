@@ -5,11 +5,17 @@
                 <h4 class="text-center">Create a new category</h4>
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input value="<?= $variables['category']['name'] ?? '' ?>" name="name" type="text" class="form-control" id="name">
+                    <input 
+                        value="<?= htmlspecialchars($variables['category']['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>" 
+                        name="name" 
+                        type="text" 
+                        class="form-control" 
+                        id="name">
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea name="description" type="text" class="form-control" id="description"><?= $variables['category']['description'] ?? '' ?></textarea>
+                    <textarea name="description" type="text" class="form-control" id="description"
+                        ><?= htmlspecialchars($variables['category']['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
                 </div>
                 <div class="mb-3">
                     <input name="img" type="file" id="image-upload" accept="image/*">

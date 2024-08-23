@@ -7,10 +7,14 @@
                     style="width:100%; height:100%; overflow: hidden;">
             </div>
             <div class="p-5">
-                <h2><?= $post->title ?></h2>
+                <h2><?= htmlspecialchars($post->title, ENT_QUOTES, 'UTF-8') ?></h2>
                 <?php $category = $post->getCategory(); ?>
-                <h6><a href="/categories/get/<?= $category->id ?>"><?= $category->name ?></a></h6>
-                <p>By <?= $post->getUser()->username ?> - <?= $post->updated_at ?></p>
+                <h6>
+                    <a href="/categories/get/<?= $category->id ?>">
+                        <?= htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8') ?>
+                    </a>
+                </h6>
+                <p>By <?= htmlspecialchars($post->getUser()->username, ENT_QUOTES, 'UTF-8') ?> - <?= $post->updated_at ?></p>
 
                 <?php if ($currentUser->hasPermission($permissions['EDIT_POST'])): ?>
                     <a href="/posts/update/<?= $post->id ?>" class="btn btn-warning px-4">Edit</a>
@@ -26,7 +30,7 @@
                 <hr>
                 
                 <div style="word-wrap: break-word;">
-                    <?= $post->body ?>
+                    <?= htmlspecialchars($post->body, ENT_QUOTES, 'UTF-8') ?>
                 </div>
             </div>
         </div>
