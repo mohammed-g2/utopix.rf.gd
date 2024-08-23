@@ -30,3 +30,10 @@ function previewPost() {
   let modal = new bootstrap.Modal('#preview-post', {});
   modal.show();
 }
+
+function formatPost() {
+  let converter = new showdown.Converter();
+  let postBody = document.getElementById('post-body');
+  let html = converter.makeHtml(postBody.innerHTML);
+  postBody.innerHTML = html;
+}

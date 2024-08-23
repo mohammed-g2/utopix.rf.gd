@@ -24,7 +24,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="m-0 p-0"><?= htmlspecialchars($trending->title, ENT_QUOTES, 'UTF-8') ?></h6>
-                        <p><small><?= $trending->updated_at ?></small></p>
+                        <p class="m-0"><small><?= $trending->updated_at ?></small></p>
                     </div>
                 </a>
             <?php endforeach; ?>

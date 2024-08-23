@@ -33,10 +33,15 @@
                 
                 <hr>
                 
-                <div style="word-wrap: break-word;">
-                    <?= htmlspecialchars($post->body, ENT_QUOTES, 'UTF-8') ?>
-                </div>
+                <div style="word-wrap: break-word;" id="post-body"><?= htmlspecialchars($post->body, ENT_QUOTES, 'UTF-8') ?></div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="/assets/libs/js/showdown.min.js"></script>
+<script src="/assets/js/write.js"></script>
+
+<script>
+    formatPost();
+</script>
