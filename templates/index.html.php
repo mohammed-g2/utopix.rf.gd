@@ -20,7 +20,7 @@
             <?php foreach ($variables['trending'] as $trending): ?>
                 <a class="d-flex align-items-center mb-3 d-block text-black" href="/posts/get/<?= $trending->id ?>">
                     <div class="h-100">
-                        <img src="https://wallpapercave.com/wp/5WssQ8F.jpg" class="img-fluid thumbnail">
+                        <img src="<?=$trending->img_url?>" class="img-fluid thumbnail">
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="m-0 p-0"><?= htmlspecialchars($trending->title, ENT_QUOTES, 'UTF-8') ?></h6>

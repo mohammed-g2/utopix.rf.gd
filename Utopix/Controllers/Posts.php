@@ -67,10 +67,20 @@ class Posts implements Controller
      * method GET, get post by id
      */
     public function get(string $id): array {
+        $post = $this->posts->getById($id);
+        if ($post ===false) {
+            http_response_code(404);
+            header('location: /error/404');
+            exit;
+        }
+        $this->posts->save([
+            'id' => $post->id,
+            'visits' => $post->visits + 1,
+        ]);
         return [
             'template' => 'posts/post.html.php',
             'variables' => [
-                'post' => $this->posts->getById($id)
+                'post' => $post
             ]
         ];
     }
