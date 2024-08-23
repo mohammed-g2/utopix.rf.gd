@@ -60,16 +60,15 @@ class Posts implements Controller
         ];
     }
 
-    public function listByCategory(string $category): array { 
-        return [];    
-    }
-
     /**
      * method GET, get post by id
      */
     public function get(string $id): array {
         return [
-            'template' => 'posts/post.html.php'
+            'template' => 'posts/post.html.php',
+            'variables' => [
+                'post' => $this->posts->getById($id)
+            ]
         ];
     }
 
