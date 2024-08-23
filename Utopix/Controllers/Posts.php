@@ -139,8 +139,73 @@ class Posts implements Controller
      * method POST, attempt to update the post then redirect
      */
     public function update(string $id): array|null {
+        $post = $this->posts->getById($id);
+        if ($post === false) {
+            http_response_code(404);
+            header('location: /error/404');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $errors = [];
+
+            if (empty($_POST['title'])) {
+                $errors[] = 'post title cannot be empty';
+            }
+            if (empty($_POST['body'])) {
+                $errors[] = 'post content cannot be empty';
+            }
+            if (!empty($this->posts->filterBy(['title' => $_POST['title']]))
+                    && $_POST['title'] != $post->title) {
+                $errors[] = 'please choose another title';
+            }
+
+            $upload = upload_image($_FILES['img'], true);
+
+            if (is_array($upload)) {
+                $errors = array_merge($upload, $errors);
+            }
+            else {
+                // delete old image if another one is uploaded
+                $oldImg = realpath(__DIR__ . '/../../public' . $post->img_url);
+                if ($oldImg !== false) {
+                    unlink($oldImg);
+                }
+                $imgLink = '/assets/images/' . $upload;
+            }
+            if ($upload === '') {
+                $imgLink = $post->img_url;
+            }
+
+            if (empty($errors)) {
+                $post = $this->posts->save([
+                    'id' => $post->id,
+                    'title' => $_POST['title'],
+                    'body' => $_POST['body'],
+                    'updated_at' => new DateTime(),
+                    'user_id' => $this->authentication->getCurrentUer()->id,
+                    'visits' => 0,
+                    'publish' => true,
+                    'img_url' => $imgLink,
+                    'category_id' => $_POST['category_id']
+                ]);
+
+                header('location: /posts/list');
+                exit;
+            }
+        }
         return [
-            'template' => 'posts/update.html.php'
+            'template' => 'posts/create.html.php',
+            'flashedMsgs' => $errors ?? [],
+            'variables' => [
+                'post' => [
+                    'title' => $post->title,
+                    'body' => $post->body,
+                    'category_id' => $post->category_id,
+                    'img_url' => $post->img_url
+                ],
+                'categories' => $this->categories->getAll()
+            ]
         ];
     }
 

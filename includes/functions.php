@@ -14,9 +14,12 @@ function p_echo($var) {
  * attempt to upload image and return either an 
  * array of errors or the image name
  */
-function upload_image(array $file): array|string {
+function upload_image(array $file, bool $ignore_empty=false): array|string {
     $errors = [];
 
+    if ($ignore_empty && empty($file['tmp_name'])) {
+        return '';
+    }
     if (empty($file['tmp_name'])) {
         $errors[] = 'you did not choose an image';
     }

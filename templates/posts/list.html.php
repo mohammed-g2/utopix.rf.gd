@@ -17,8 +17,14 @@
                         <div class="col-md-8">
                             <div class="card-body bg-none pt-0">
                                 <p class="card-text d-inline-block py-1 px-2 mt-md-0 mt-2"
-                                    style="background-color:#8b1d15; color:#fff;"><?= $post->getCategory()->name ?? 'None' ?>
+                                    style="background-color:#8b1d15; color:#fff;">
+                                    <?= $post->getCategory()->name ?? 'None' ?>
                                 </p>
+                            
+                                <?php if ($currentUser->hasPermission($permissions['EDIT_POST'])): ?>
+                                    <a href="/posts/update/<?=$post->id?>" class="btn btn-warning px-4">Edit</a>
+                                <?php endif; ?>
+
                                 <a href="<?= '/posts/get/' . $post->id ?>">
                                     <h5 class="card-title"><?= $post->title ?></h5>
                                 </a>

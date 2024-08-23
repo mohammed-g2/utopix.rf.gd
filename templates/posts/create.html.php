@@ -6,7 +6,7 @@
 <div class="container-fluid px-0 mx-0 h-100">
     <form action="" method="post" enctype="multipart/form-data">
         <div class="banner">
-            <img src="" id="img-preview" class="img-preview">
+            <img src="<?=$variables['post']['img_url'] ?? '' ?>" id="img-preview" class="img-preview">
         </div>
 
         <div class="blog">
