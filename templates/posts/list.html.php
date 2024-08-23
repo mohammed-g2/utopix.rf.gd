@@ -20,10 +20,6 @@
                                     style="background-color:#8b1d15; color:#fff;">
                                     <?= $post->getCategory()->name ?? 'None' ?>
                                 </p>
-                            
-                                <?php if ($currentUser->hasPermission($permissions['EDIT_POST'])): ?>
-                                    <a href="/posts/update/<?=$post->id?>" class="btn btn-warning px-4">Edit</a>
-                                <?php endif; ?>
 
                                 <a href="<?= '/posts/get/' . $post->id ?>">
                                     <h5 class="card-title"><?= $post->title ?></h5>

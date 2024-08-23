@@ -213,6 +213,17 @@ class Posts implements Controller
      * method POST, attempt to delete post then redirect
      */
     public function delete(): void {
-        return;
+        $post = $this->posts->getById($_POST['id']);
+        if ($post === false) {
+            http_response_code(404);
+            header('location: /error/404');
+            exit;
+        }
+
+        $this->posts->delete($_POST['id']);
+
+        http_response_code(202);
+        header('location: /posts/list');
+        exit;
     }
 }

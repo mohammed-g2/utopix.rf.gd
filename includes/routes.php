@@ -18,7 +18,7 @@ $website->addRoute('posts/create', ['GET', 'POST'], ['Posts', 'create'],
     true, \Utopix\Entity\User::EDIT_POST);
 $website->addRoute('posts/update', ['GET', 'POST'], ['Posts', 'update'],
     true, \Utopix\Entity\User::EDIT_POST);
-$website->addRoute('posts/delete', ['POST'], ['Posts', 'homePage'],
+$website->addRoute('posts/delete', ['POST'], ['Posts', 'delete'],
     true, \Utopix\Entity\User::DELETE_POST);
 
 // Users controller routes
