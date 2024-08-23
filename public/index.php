@@ -1,12 +1,13 @@
 <?php
 
+$env = parse_ini_file(__DIR__ . '/../.env');
+
 include __DIR__ . '/../includes/autoload.php';
 include_once __DIR__ . '/../includes/functions.php';
 
 use \Utopix\UtopixWebsite;
 use \Ninja\EntryPoint;
 
-$env = parse_ini_file(__DIR__ . '/../.env');
 
 $website = new UtopixWebsite($env);
 $entryPoint = new EntryPoint($website);
