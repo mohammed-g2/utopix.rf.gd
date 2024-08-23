@@ -24,7 +24,6 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <h6 class="m-0 p-0"><?= htmlspecialchars($trending->title, ENT_QUOTES, 'UTF-8') ?></h6>
-                        <p class="m-0 p-0"><?= htmlspecialchars(substr($trending->body, 0, 22), ENT_QUOTES, 'UTF-8') ?></p>
                         <p><small><?= $trending->updated_at ?></small></p>
                     </div>
                 </a>
@@ -192,9 +191,6 @@
                                 <i class="zmdi zmdi-time ms-2"></i> <span class="me-2"><?=$secondary->updated_at?></span> /
                                 <i class="zmdi zmdi-comments ms-2"></i> 15
                             </small>
-                        </p>
-                        <p class="card-text">
-                            <?= htmlspecialchars(substr($secondary->body, 0, 50), ENT_QUOTES, 'UTF-8') ?>
                         </p>
                     </div>
                 </div>

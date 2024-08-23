@@ -31,7 +31,6 @@
                                         <i class="zmdi zmdi-comments ms-2"></i>
                                     </small>
                                 </p>
-                                <p class="card-text"><?= substr($post->body, 0, 100) ?>...</p>
                             </div>
                         </div>
                     </div>
