@@ -1,18 +1,22 @@
 <div class="container-fluid m-0 p-0 w-100">
     <div class="row m-0 p-0 w-100">
         <div class="col-lg-8 col-12 w-100 m-0 p-0">
-            <div class="w-100" style="height:500px;">
-                <img
-                    src="<?= $post->img_url ?>"
-                    style="width:100%; height:100%; overflow: hidden;">
-            </div>
+            <?php if (!empty($post->img_url)): ?>
+                <div class="w-100" style="height:500px;">
+                    <img
+                        src="<?= $post->img_url ?>"
+                        style="width:100%; height:100%; overflow: hidden;">
+                </div>
+            <?php endif; ?>
             <div class="p-5">
                 <h2><?= htmlspecialchars($post->title, ENT_QUOTES, 'UTF-8') ?></h2>
                 <?php $category = $post->getCategory(); ?>
                 <h6>
-                    <a href="/categories/get/<?= $category->id ?>">
-                        <?= htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8') ?>
-                    </a>
+                    <?php if(isset($category)): ?>
+                        <a href="/categories/get/<?= $category->id ?>">
+                            <?= htmlspecialchars($category->name, ENT_QUOTES, 'UTF-8') ?>
+                        </a>
+                    <?php endif; ?>
                 </h6>
                 <p>By <?= htmlspecialchars($post->getUser()->username, ENT_QUOTES, 'UTF-8') ?> - <?= $post->updated_at ?></p>
 

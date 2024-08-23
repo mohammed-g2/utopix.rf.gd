@@ -29,13 +29,16 @@ class Posts implements Controller
      * the website's landing page
      */
     public function homePage(): array {
-        // $posts = $this->posts->getAll('updated_at DESC', 11);
-        // $trending = $this->posts->getAll('visits DESC', 4);
+        $posts = $this->posts->getAll('updated_at DESC', 11);
+        $trending = $this->posts->getAll('visits DESC', 4);
         return [
             'template' => 'index.html.php',
             'variables' => [
-                'posts' => [],
-                'trending' => []
+                'posts' => $posts,
+                'trending' => $trending,
+                'hero' => array_shift($posts),
+                'main' => array_slice($posts, 0, 5),
+                'secondary' => array_slice($posts, 5)
             ]
         ];
     }
