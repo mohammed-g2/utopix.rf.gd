@@ -8,8 +8,7 @@
   <title>Utopix</title>
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   <!-- Third-party CSS -->
-  <link rel="stylesheet" href="/assets/libs/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/libs/css/material-design-iconic-font.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- App CSS -->
   <link rel="stylesheet" href="/assets/css/base.css">
 </head>
@@ -69,8 +68,8 @@
   </div>
 
   <!-- third part js -->
-  <script src="/assets/libs/js/popper.min.js"></script>
-  <script src="/assets/libs/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <!-- app js -->
   <script src="/assets/js/main.js"></script>
 </body>

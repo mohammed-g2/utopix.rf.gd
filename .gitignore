@@ -10,3 +10,4 @@ node_modules/
 # other
 .env
 .env-python
+.env-remote

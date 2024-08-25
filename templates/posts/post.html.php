@@ -1,3 +1,12 @@
+<script src="/assets/libs/js/showdown.min.js"></script>
+<script src="/assets/js/write.js"></script>
+
+<script>
+    window.onload = () => {
+        formatPost();
+    };
+</script>
+
 <div class="container-fluid m-0 p-0 w-100">
     <div class="row m-0 p-0 w-100">
         <div class="col-lg-8 col-12 w-100 m-0 p-0">
@@ -38,10 +47,3 @@
         </div>
     </div>
 </div>
-
-<script src="/assets/libs/js/showdown.min.js"></script>
-<script src="/assets/js/write.js"></script>
-
-<script>
-    formatPost();
-</script>
