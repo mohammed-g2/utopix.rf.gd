@@ -10,16 +10,11 @@
         <h4 class="mt-md-0 mt-5">&#8281; Site map</h4>
         <div class="d-flex">
             <ul style="list-style-type: none;">
-                <li class="mb-1"><a href="#">Page</a></li>
-                <li class="mb-1"><a href="#">Page</a></li>
-                <li class="mb-1"><a href="#">Page</a></li>
-                <li class="mb-1"><a href="#">Page</a></li>
+                <li class="mb-1"><a href="/">Home Page</a></li>
+                <li class="mb-1"><a href="/posts/list">Posts</a></li>
+                <li class="mb-1"><a href="/categories/list">Categories</a></li>
             </ul>
             <ul style="list-style-type: none;">
-                <li class="mb-1"><a href="#">Page</a></li>
-                <li class="mb-1"><a href="#">Page</a></li>
-                <li class="mb-1"><a href="#">Page</a></li>
-                <li class="mb-1"><a href="#">Page</a></li>
             </ul>
         </div>
     </div>

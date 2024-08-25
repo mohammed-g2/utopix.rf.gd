@@ -6,11 +6,22 @@
   <meta name="description" content="Utopix">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Utopix</title>
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
   <!-- Third-party CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- App CSS -->
   <link rel="stylesheet" href="/assets/css/base.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6N915S8QD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-L6N915S8QD');
+  </script>
 </head>
 
 <body>
@@ -32,10 +43,10 @@
             <li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
           </ul>
         </div>
-          <?php else: ?>
-            <small><a href="/auth/login" class="text-white"><i class="zmdi zmdi-account"></i> Login</a></small> /
-            <small><a href="/users/create" class="text-white">Sign up</a></small>
-          <?php endif; ?>
+      <?php else: ?>
+        <small><a href="/auth/login" class="text-white"><i class="zmdi zmdi-account"></i> Login</a></small> /
+        <small><a href="/users/create" class="text-white">Sign up</a></small>
+      <?php endif; ?>
     </div>
     <div>
       <small class="mx-2"><a href="#" class="text-white"><i class="zmdi zmdi-hc-lg zmdi-facebook-box"></i></a></small>

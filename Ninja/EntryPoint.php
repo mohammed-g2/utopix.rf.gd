@@ -88,7 +88,7 @@ class EntryPoint
                     }
                     catch (\Error $e) {
                         if ($env['ENV'] === 'development') {
-                            $content = 'Unable to connect to database <br>'
+                            $content = 'An Error occurred <br>'
                             . 'Error: ' . $e->getMessage() . '<br>'
                             . 'File: '  . $e->getFile()    . '<br>'
                             . 'Line: '  . $e->getLine();

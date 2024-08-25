@@ -3,6 +3,7 @@
 namespace Ninja;
 
 use \Ninja\DatabaseTable;
+use \Ninja\AnonymousUser;
 
 /**
  * user authentication, creates a new session
@@ -80,7 +81,7 @@ class Authentication {
                 [$this->usernameColumn => strtolower($_SESSION['username'])])[0];
         }
         else {
-            return false;
+            return new AnonymousUser();
         }
     }
 
