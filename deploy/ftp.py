@@ -12,7 +12,7 @@ load_dotenv('.env-python')
 def delete_ftp_dirs(ftp: ftplib.FTP):
     def remove_ftp_dir(path):
         for (name, properties) in ftp.mlsd(path=path):
-            if name in ['.', '..']:
+            if name in ['.', '..', 'public', 'assets', 'images']:
                 continue
             elif properties['type'] == 'file':
                 ftp.delete(f'{path}/{name}')
@@ -25,7 +25,7 @@ def delete_ftp_dirs(ftp: ftplib.FTP):
     lst = ftp.mlsd()
 
     for item in lst:
-        if item[0] in ['.', '..']:
+        if item[0] in ['.', '..', 'public', 'assets', 'images']:
                 continue
         if item[1]['type'] == 'file':
             ftp.delete(item[0])
