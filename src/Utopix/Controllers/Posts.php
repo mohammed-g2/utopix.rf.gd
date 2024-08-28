@@ -6,8 +6,9 @@ use \DateTime;
 use \Ninja\DatabaseTable;
 use \Ninja\Authentication;
 use \Ninja\Controller;
+use \Ninja\Dropbox;
 
-class Posts implements Controller
+class Posts #implements Controller
 {
     private DatabaseTable $posts;
     private DatabaseTable $categories;
@@ -28,7 +29,7 @@ class Posts implements Controller
     /**
      * the website's landing page
      */
-    public function homePage(): array {
+    public function homePage(array $environ): array {
         $posts = $this->posts->getAll('updated_at DESC', 11);
         $trending = $this->posts->getAll('visits DESC', 4);
         return [
@@ -46,7 +47,7 @@ class Posts implements Controller
     /**
      * method GET, return a list of posts
      */
-    public function list(): array {
+    public function list(array $environ): array {
         $page = $_GET['page'] ?? 1;
         $perPage = 5;
         $pages = ceil($this->posts->total() / $perPage);
@@ -66,7 +67,7 @@ class Posts implements Controller
     /**
      * method GET, get post by id
      */
-    public function get(string $id): array {
+    public function get(array $environ, string $id): array {
         $post = $this->posts->getById($id);
         if ($post ===false) {
             http_response_code(404);
@@ -89,7 +90,7 @@ class Posts implements Controller
      * method GET, return the create a new post form
      * method POST, attempt to create a new post then redirect
      */
-    public function create(): array|null {
+    public function create(array $environ): array|null {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors = [];
 
@@ -103,9 +104,10 @@ class Posts implements Controller
                 $errors[] = 'please choose another title';
             }
 
-            $upload = upload_image($_FILES['img']);
+            $dropbox = new Dropbox($environ['env']['DROPBOX_TOKEN']);
+            $upload = $dropbox->uploadImage($environ['FILES']['img']);
 
-            if (is_array($upload)) {
+            if (isset($upload['error'])) {
                 $errors = array_merge($upload, $errors);
             }
 
@@ -114,10 +116,12 @@ class Posts implements Controller
                     'title' => $_POST['title'],
                     'body' => $_POST['body'],
                     'updated_at' => new DateTime(),
+                    'created_at' => new DateTime(),
                     'user_id' => $this->authentication->getCurrentUer()->id,
                     'visits' => 0,
                     'publish' => true,
-                    'img_url' => '/assets/images/' . $upload,
+                    'img_url' => $upload['link'],
+                    'img_path' => $upload['path'],
                     'category_id' => $_POST['category_id']
                 ]);
 
@@ -151,7 +155,7 @@ class Posts implements Controller
      * method GET, return the update post form
      * method POST, attempt to update the post then redirect
      */
-    public function update(string $id): array|null {
+    public function update(array $environ, string $id): array|null {
         $post = $this->posts->getById($id);
         if ($post === false) {
             http_response_code(404);
@@ -173,21 +177,17 @@ class Posts implements Controller
                 $errors[] = 'please choose another title';
             }
 
-            $upload = upload_image($_FILES['img'], true);
+            $dropbox = new Dropbox($environ['env']['DROPBOX_TOKEN']);
+            $upload = $dropbox->uploadImage($environ['FILES']['img']);
 
-            if (is_array($upload)) {
-                $errors = array_merge($upload, $errors);
+            if (isset($upload['error'])) {
+                $errors = array_merge($errors, $upload['errors']);
             }
             else {
                 // delete old image if another one is uploaded
-                $oldImg = realpath(__DIR__ . '/../../public' . $post->img_url);
-                if ($oldImg !== false) {
-                    unlink($oldImg);
+                if (isset($post->img_path)) {
+                    $dropbox->delete($post->img_path);
                 }
-                $imgLink = '/assets/images/' . $upload;
-            }
-            if ($upload === '') {
-                $imgLink = $post->img_url;
             }
 
             if (empty($errors)) {
@@ -196,11 +196,10 @@ class Posts implements Controller
                     'title' => $_POST['title'],
                     'body' => $_POST['body'],
                     'updated_at' => new DateTime(),
-                    'user_id' => $this->authentication->getCurrentUer()->id,
-                    'visits' => 0,
                     'publish' => true,
-                    'img_url' => $imgLink,
-                    'category_id' => $_POST['category_id']
+                    'img_url' => $upload['link'],
+                    'category_id' => $_POST['category_id'],
+                    'img_path' => $upload['path']
                 ]);
 
                 header('location: /posts/list');
@@ -225,7 +224,7 @@ class Posts implements Controller
     /**
      * method POST, attempt to delete post then redirect
      */
-    public function delete(): void {
+    public function delete(array $environ): void {
         $post = $this->posts->getById($_POST['id']);
         if ($post === false) {
             http_response_code(404);

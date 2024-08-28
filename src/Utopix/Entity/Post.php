@@ -14,6 +14,7 @@ class Post
     public bool $publish;
     public int $user_id;
     public ?int $category_id;
+    public ?string $img_path;
     private DatabaseTable $users;
     private DatabaseTable $categories;
     private ?object $user;

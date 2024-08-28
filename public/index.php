@@ -10,7 +10,7 @@ use \Utopix\UtopixWebsite;
 use \Ninja\EntryPoint;
 
 $website = new UtopixWebsite($env, $pdo);
-$entryPoint = new EntryPoint($website);
+$entryPoint = new EntryPoint($env, $website);
 
 $uri = strtok(ltrim($_SERVER['REQUEST_URI'], '/'), '?');
 $method = $_SERVER['REQUEST_METHOD'];

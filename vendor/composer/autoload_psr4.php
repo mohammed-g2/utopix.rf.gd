@@ -8,7 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Utopix\\' => array($baseDir . '/src/Utopix'),
     'Spatie\\Dropbox\\' => array($vendorDir . '/spatie/dropbox-api/src'),
-    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src', $vendorDir . '/psr/http-factory/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'Ninja\\' => array($baseDir . '/src/Ninja'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),

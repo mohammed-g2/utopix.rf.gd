@@ -3,7 +3,7 @@
 namespace Ninja;
 
 use \Ninja\DatabaseTable;
-use \Ninja\AnonymousUser;
+use \Utopix\Entity\AnonymousUser;
 
 /**
  * user authentication, creates a new session

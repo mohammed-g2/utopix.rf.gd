@@ -12,13 +12,15 @@ use \Ninja\Website;
 class EntryPoint
 {
     private Website $website;
+    private array $env;
 
     /**
      * @param \Ninja\Website $website - a class that implements interface \Ninja\Website
      */
-    public function __construct(Website $website)
+    public function __construct(array $env, Website $website)
     {
         $this->website = $website;
+        $this->env = $env;
     }
 
     public function __toString()
@@ -81,8 +83,15 @@ class EntryPoint
                 $controller = $view['controllerClass'];
                 $action = $view['controllerView']['method'];
                 if (is_callable([$controller, $action])) {
+                    $environ = [
+                        'POST' => $_POST,
+                        'GET' => $_GET,
+                        'FILES' => $_FILES,
+                        'SERVER' => $_SERVER,
+                        'env' => $this->env
+                    ];
                     try {
-                        $page = $controller->$action(...$view['controllerView']['vars']);
+                        $page = $controller->$action($environ, ...$view['controllerView']['vars']);
                         $variables = $page['variables'] ?? [];
                         $content = $this->loadTemplate($page['template'], $variables);
                     }
