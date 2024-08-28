@@ -16,11 +16,11 @@ function p_echo($var) {
  * attempt to upload image and return either an 
  * array of errors or the image name
  */
-function upload_image(array $file, bool $ignore_empty=false): array|string {
+function upload_image(array $file, bool $ignore_empty=false): array {
     $errors = [];
 
     if ($ignore_empty && empty($file['tmp_name'])) {
-        return '';
+        return [];
     }
     if (empty($file['tmp_name'])) {
         $errors[] = 'you did not choose an image';
@@ -49,6 +49,6 @@ function upload_image(array $file, bool $ignore_empty=false): array|string {
         $imgName = rand() . '-' . $_FILES['img']['name'];
         $saveFolder = __DIR__ . '/../public/assets/images/' . $imgName;
         move_uploaded_file($_FILES['img']['tmp_name'], $saveFolder);
-        return $imgName;
+        return ['url' => $imgName];
     }
 }
