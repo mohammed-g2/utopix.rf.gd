@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.ico">
     <title>Utopix</title>
-    <link rel="stylesheet" href="./assets/libs/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./assets/css/base.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 </head>
 
 <body>
@@ -23,8 +23,8 @@
             <div class="col-md-6 col-12 h-100">
                 <div class="d-flex align-items-center h-100 ps-5">
                     <div>
-                        <h1>Under Construction</h1>
-                        <p>Our website is currently under construction, we will be here shortly.</p>
+                        <h1>Under Maintenance</h1>
+                        <p>Our website is currently under maintenance, we will be here shortly.</p>
                     </div>
                 </div>
             </div>

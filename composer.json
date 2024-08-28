@@ -1,0 +1,16 @@
+{
+    "name": "m/utopix.rf.gd",
+    "autoload": {
+        "psr-4": {
+            "Utopix\\": "src/Utopix",
+            "Ninja\\": "src/Ninja"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mohammed",
+            "email": "mohammed.mm404@gmail.com"
+        }
+    ],
+    "require": {}
+}

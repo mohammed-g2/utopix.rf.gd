@@ -17,9 +17,8 @@ class UtopixWebsite implements Website
     private array $env;
     private array $routes;
 
-    public function __construct(array $env)
+    public function __construct(array $env, PDO $pdo)
     {
-        include __DIR__ . '/../includes/DatabaseConnection.php';
         $this->pdo = $pdo;
         $this->users = new DatabaseTable(
             $this->pdo,
