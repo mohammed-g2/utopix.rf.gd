@@ -16,9 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/categories/list">Categories</a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <button class="btn mt-md-5 rounded-0" id="search-btn">
+                    <button class="btn mt-md-5 rounded-0" id="search-btn" onclick="new bootstrap.Modal('#search-modal', {}).show();">
                         <i class="zmdi zmdi-hc-lg zmdi-search"></i>
                     </button>
                 </li>
@@ -27,3 +27,18 @@
     </div>
 </nav>
 <!--################# End Navbar #################-->
+
+<!-- search modal -->
+<div id="search-modal" class="modal fade" style="color:#000;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="px-3 py-2" method="GET" action="">
+                    <div class="mb-3">
+                        <input type="text" class="form-control border-0" id="search-field" placeholder="Start typing here...">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

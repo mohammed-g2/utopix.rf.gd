@@ -19,7 +19,7 @@
             <?php endif; ?>
             <div class="container-fluid m-0 p-0">
                 <div class="row m-0 p-0 justify-content-center">
-                    <div class="col-lg-10 col-12 m-0 p-0">
+                    <div class="col-lg-8 col-md-8 col-12 m-0 p-0">
                         <div class="p-5">
                             <h2><?= htmlspecialchars($post->title, ENT_QUOTES, 'UTF-8') ?></h2>
                             <?php $category = $post->getCategory(); ?>

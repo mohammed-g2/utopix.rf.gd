@@ -8,11 +8,13 @@
   <title>Utopix</title>
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
   <!-- Third-party CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"> 
   <!-- App CSS -->
   <link rel="stylesheet" href="/assets/css/base.css">
 
+  <!-- Third-part Scripts -->
+  <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6N915S8QD"></script>
   <script>
@@ -25,7 +27,16 @@
   </script>
 </head>
 
-<body>
+<body
+    hx-boost="true"
+    hx-target="body"
+    hx-push-url="true"
+    hx-swap="outerHTML"
+    hx-indicator="#spinner"
+>
+  <!-- Spinner -->
+  <img  id="spinner" class="htmx-indicator" src="/assets/images/800.svg"/>
+
   <div class="bg-black py-2 px-3 d-flex justify-content-between text-white">
     <div>
       <?php if ($isAuthenticated): ?>
@@ -61,7 +72,7 @@
       <div class="col mt-4 mb-4 d-flex justify-content-center p-0 m-0">
         <h1 style="font-size:5em;">
           <a href="/" class="text-black">
-            <span style="color:#c00100;">𝖀</span>𝖙𝖔𝖕𝖎𝖝
+            <img src="/assets/images/header.png" alt="utopix">
           </a>
         </h1>
       </div>
@@ -71,7 +82,7 @@
 
     <?php include __DIR__ . '/../templates/fragments/navbar.html.php'; ?>
 
-    <div>
+    <div id="content">
       <?= $content ?>
     </div>
 

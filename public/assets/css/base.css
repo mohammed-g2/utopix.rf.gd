@@ -9,7 +9,7 @@ body {
     height: 100%;
     padding: 0;
     margin: 0;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 a {
@@ -26,7 +26,7 @@ a:hover {}
 
 
 .navbar {
-    background-color: #b31a0f;
+    background-color: #2e2e2e;
 }
 
 .navbar .nav-link,
@@ -36,14 +36,14 @@ a:hover {}
     color: #fff;
     text-transform: uppercase;
     display: inline-block !important;
-    background-color: #99160d;
+    background-color: #474747;
     margin: 4px 20px 4px 0 !important;
     padding: 12px 26px 12px 26px !important;
 }
 
 .navbar .nav-link:hover,
 #search-btn:hover {
-    background-color: #d10808;
+    background-color: #777777;
 }
 
 #hero-image {
@@ -118,4 +118,30 @@ a:hover {}
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: #000;
+}
+
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+    position: absolute;
+    display: none;
+    z-index: 1000;
+    margin: auto;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.htmx-request .htmx-indicator {
+    opacity: 1;
+    display: block;
+    transition: opacity 500ms ease-out;
+}
+
+.htmx-request.htmx-indicator {
+    opacity: 1;
+    display: block;
+    transition: opacity 500ms ease-out;
 }
