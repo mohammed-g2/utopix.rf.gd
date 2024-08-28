@@ -12,5 +12,7 @@
             "email": "mohammed.mm404@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "spatie/dropbox-api": "^1.22"
+    }
 }
