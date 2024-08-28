@@ -10,13 +10,11 @@ class Users implements Controller
 {
     private DatabaseTable $users;
     private Authentication $authentication;
-    private array $env;
 
-    public function __construct(DatabaseTable $users, Authentication $authentication, array $env)
+    public function __construct(DatabaseTable $users, Authentication $authentication)
     {
         $this->users = $users;
         $this->authentication = $authentication;
-        $this->env = $env;
     }
 
     public function __toString(): string
@@ -27,7 +25,7 @@ class Users implements Controller
     /**
      * method GET, return a list of users
      */
-    public function list(): array
+    public function list(array $environ): array
     {
         return [];
     }
@@ -35,7 +33,7 @@ class Users implements Controller
     /**
      * method GET, get user by id
      */
-    public function get(string $id): array
+    public function get(array $environ, string $id): array
     {
         return [];
     }
@@ -44,52 +42,52 @@ class Users implements Controller
      * method GET, return the registration form
      * method POST, attempt to create a new user account then redirect
      */
-    public function create(): array|null
+    public function create(array $environ): array|null
     {
         if ($this->authentication->isAuthenticated()) {
             header('location: /');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($environ['SERVER']['REQUEST_METHOD'] === 'POST') {
             $errors = [];
 
-            if (empty($_POST['username'])) {
+            if (empty($environ['POST']['username'])) {
                 $errors[] = 'invalid username';
             }
-            if (strlen($_POST['username']) < 3) {
+            if (strlen($environ['POST']['username']) < 3) {
                 $errors[] = 'username cannot be less than 3 characters';
             }
-            if (empty($_POST['email'])) {
+            if (empty($environ['POST']['email'])) {
                 $errors[] = 'invalid email';
             }
-            if (empty($_POST['password'])) {
+            if (empty($environ['POST']['password'])) {
                 $errors[] = 'invalid password';
             }
-            if (strlen($_POST['password']) < 6) {
+            if (strlen($environ['POST']['password']) < 6) {
                 $errors[] = 'password cannot be less than 6 characters';
             }
-            if (!empty($this->users->filterBy(['username' => $_POST['username']]))) {
+            if (!empty($this->users->filterBy(['username' => $environ['POST']['username']]))) {
                 $errors[] = 'please choose a different username';
             }
-            if (!empty($this->users->filterBy(['email' => $_POST['email']]))) {
+            if (!empty($this->users->filterBy(['email' => $environ['POST']['email']]))) {
                 $errors[] = 'please choose a different email';
             }
 
             if (empty($errors)) {
-                if ($_POST['username'] === $this->env['ADMIN_USERNAME'] 
-                        && $_POST['email'] === $this->env['ADMIN_EMAIL']) {
+                if ($environ['POST']['username'] === $environ['env']['ADMIN_USERNAME'] 
+                        && $environ['POST']['email'] === $environ['env']['ADMIN_EMAIL']) {
                     $this->users->save([
-                        'username' => $_POST['username'],
-                        'email' => $_POST['email'],
-                        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                        'username' => $environ['POST']['username'],
+                        'email' => $environ['POST']['email'],
+                        'password' => password_hash($environ['POST']['password'], PASSWORD_DEFAULT),
                         'permissions' => \Utopix\Entity\User::adminPermissions()
                     ]);
                 }
                 else {
                     $this->users->save([
-                        'username' => $_POST['username'],
-                        'email' => $_POST['email'],
-                        'password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+                        'username' => $environ['POST']['username'],
+                        'email' => $environ['POST']['email'],
+                        'password' => password_hash($environ['POST']['password'], PASSWORD_DEFAULT),
                         'permissions' => 0
                     ]);
                 }
@@ -101,8 +99,8 @@ class Users implements Controller
                     'template' => 'users/register.html.php',
                     'flashedMsgs' => $errors,
                     'variables' => [
-                        'username' => $_POST['username'],
-                        'email' => $_POST['email']
+                        'username' => $environ['POST']['username'],
+                        'email' => $environ['POST']['email']
                     ]
                 ];
             }
@@ -116,7 +114,7 @@ class Users implements Controller
      * method GET, return the update user info form
      * method POST, attempt to update user info then redirect
      */
-    public function update(string $id): array|null
+    public function update(array $environ, string $id): array|null
     {
         return [];
     }
@@ -124,7 +122,7 @@ class Users implements Controller
     /**
      * method POST, attempt to delete user account then redirect
      */
-    public function delete(): void
+    public function delete(array $environ): void
     {
         return;
     }

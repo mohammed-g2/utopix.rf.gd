@@ -14,10 +14,9 @@ class UtopixWebsite implements Website
     private ?DatabaseTable $posts;
     private ?DatabaseTable $categories;
     private Authentication $authentication;
-    private array $env;
     private array $routes;
 
-    public function __construct(array $env, PDO $pdo)
+    public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
         $this->users = new DatabaseTable(
@@ -42,7 +41,6 @@ class UtopixWebsite implements Website
         [&$this->posts]);
         $this->authentication = new Authentication($this->users, 'email', 'password');
         $this->routes = [];
-        $this->env = $env;
     }
 
     public function __toString()
@@ -76,7 +74,7 @@ class UtopixWebsite implements Website
                 $this->categories,
                 $this->authentication
             ),
-            'Users' => new \Utopix\Controllers\Users($this->users, $this->authentication, $this->env),
+            'Users' => new \Utopix\Controllers\Users($this->users, $this->authentication),
             'Categories' => new \Utopix\Controllers\Categories($this->categories),
             'Auth' => new \Utopix\Controllers\Auth($this->users, $this->authentication),
             'Errors' => new \Utopix\Controllers\Errors()

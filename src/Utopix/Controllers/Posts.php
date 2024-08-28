@@ -8,7 +8,7 @@ use \Ninja\Authentication;
 use \Ninja\Controller;
 use \Ninja\Dropbox;
 
-class Posts #implements Controller
+class Posts implements Controller
 {
     private DatabaseTable $posts;
     private DatabaseTable $categories;
@@ -48,7 +48,7 @@ class Posts #implements Controller
      * method GET, return a list of posts
      */
     public function list(array $environ): array {
-        $page = $_GET['page'] ?? 1;
+        $page = $environ['GET']['page'] ?? 1;
         $perPage = 5;
         $pages = ceil($this->posts->total() / $perPage);
         $posts = $this->posts->getAll('updated_at DESC', $perPage, ($page - 1) * $perPage);
@@ -91,16 +91,16 @@ class Posts #implements Controller
      * method POST, attempt to create a new post then redirect
      */
     public function create(array $environ): array|null {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($environ['SERVER']['REQUEST_METHOD'] === 'POST') {
             $errors = [];
 
-            if (empty($_POST['title'])) {
+            if (empty($environ['POST']['title'])) {
                 $errors[] = 'post title cannot be empty';
             }
-            if (empty($_POST['body'])) {
+            if (empty($environ['POST']['body'])) {
                 $errors[] = 'post content cannot be empty';
             }
-            if (!empty($this->posts->filterBy(['title' => $_POST['title']]))) {
+            if (!empty($this->posts->filterBy(['title' => $environ['POST']['title']]))) {
                 $errors[] = 'please choose another title';
             }
 
@@ -113,8 +113,8 @@ class Posts #implements Controller
 
             if (empty($errors)) {
                 $post = $this->posts->save([
-                    'title' => $_POST['title'],
-                    'body' => $_POST['body'],
+                    'title' => $environ['POST']['title'],
+                    'body' => $environ['POST']['body'],
                     'updated_at' => new DateTime(),
                     'created_at' => new DateTime(),
                     'user_id' => $this->authentication->getCurrentUer()->id,
@@ -122,7 +122,7 @@ class Posts #implements Controller
                     'publish' => true,
                     'img_url' => $upload['link'],
                     'img_path' => $upload['path'],
-                    'category_id' => $_POST['category_id']
+                    'category_id' => $environ['POST']['category_id']
                 ]);
 
                 header('location: /posts/list');
@@ -134,9 +134,9 @@ class Posts #implements Controller
                     'flashedMsgs' => $errors,
                     'variables' => [
                         'post' => [
-                            'title' => $_POST['title'],
-                            'body' => $_POST['body'],
-                            'category_id' => $_POST['category_id'],
+                            'title' => $environ['POST']['title'],
+                            'body' => $environ['POST']['body'],
+                            'category_id' => $environ['POST']['category_id'],
                         ],
                         'categories' => $this->categories->getAll()
                     ]
@@ -163,17 +163,17 @@ class Posts #implements Controller
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($environ['SERVER']['REQUEST_METHOD'] === 'POST') {
             $errors = [];
 
-            if (empty($_POST['title'])) {
+            if (empty($environ['POST']['title'])) {
                 $errors[] = 'post title cannot be empty';
             }
-            if (empty($_POST['body'])) {
+            if (empty($environ['POST']['body'])) {
                 $errors[] = 'post content cannot be empty';
             }
-            if (!empty($this->posts->filterBy(['title' => $_POST['title']]))
-                    && $_POST['title'] != $post->title) {
+            if (!empty($this->posts->filterBy(['title' => $environ['POST']['title']]))
+                    && $environ['POST']['title'] != $post->title) {
                 $errors[] = 'please choose another title';
             }
 
@@ -193,12 +193,12 @@ class Posts #implements Controller
             if (empty($errors)) {
                 $post = $this->posts->save([
                     'id' => $post->id,
-                    'title' => $_POST['title'],
-                    'body' => $_POST['body'],
+                    'title' => $environ['POST']['title'],
+                    'body' => $environ['POST']['body'],
                     'updated_at' => new DateTime(),
                     'publish' => true,
                     'img_url' => $upload['link'],
-                    'category_id' => $_POST['category_id'],
+                    'category_id' => $environ['POST']['category_id'],
                     'img_path' => $upload['path']
                 ]);
 
@@ -225,14 +225,14 @@ class Posts #implements Controller
      * method POST, attempt to delete post then redirect
      */
     public function delete(array $environ): void {
-        $post = $this->posts->getById($_POST['id']);
+        $post = $this->posts->getById($environ['POST']['id']);
         if ($post === false) {
             http_response_code(404);
             header('location: /error/404');
             exit;
         }
 
-        $this->posts->delete($_POST['id']);
+        $this->posts->delete($environ['POST']['id']);
 
         http_response_code(202);
         header('location: /posts/list');

@@ -22,7 +22,7 @@ class Categories implements Controller
     /**
      * method GET, get list of entries
      */
-    public function list(): array
+    public function list(array $environ): array
     {
         $categories = $this->categories->getAll();
         return [
@@ -36,12 +36,12 @@ class Categories implements Controller
     /**
      * method GET, get single entry
      */
-    public function get(string $id): array
+    public function get(array$environ, string $id): array
     {
         $category = $this->categories->getById($id);
         $posts = $category->getPosts();
 
-        $page = $_GET['page'] ?? 1;
+        $page = $environ['GET']['page'] ?? 1;
         $perPage = 5;
         $pages = ceil(sizeof($posts) / $perPage);
 
@@ -62,18 +62,18 @@ class Categories implements Controller
      * method GET, return the create new entry form
      * method POST, attempt to create the entry then redirect
      */
-    public function create(): array|null
+    public function create(array $environ): array|null
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($environ['SERVER']['REQUEST_METHOD'] === 'POST') {
             $errors = [];
 
-            if (empty($_POST['name'])) {
+            if (empty($environ['POST']['name'])) {
                 $errors[] = 'name cannot be empty';
             }
-            if (!empty($this->categories->filterBy(['name' => $_POST['name']])[0])) {
+            if (!empty($this->categories->filterBy(['name' => $environ['POST']['name']])[0])) {
                 $errors[] = 'category name already in use';
             }
-            if (empty($_POST['description'])) {
+            if (empty($environ['POST']['description'])) {
                 $errors[] = 'description cannot be empty';
             }
             
@@ -85,8 +85,8 @@ class Categories implements Controller
 
             if (empty($errors)) {
                 $this->categories->save([
-                    'name' => $_POST['name'],
-                    'description' => $_POST['description'],
+                    'name' => $environ['POST']['name'],
+                    'description' => $environ['POST']['description'],
                     'img_url' => '/assets/images/' . $upload
                 ]);
 
@@ -99,8 +99,8 @@ class Categories implements Controller
                     'flashedMsgs' => $errors,
                     'variables' => [
                         'category' => [
-                            'name' => $_POST['name'],
-                            'description' => $_POST['description']
+                            'name' => $environ['POST']['name'],
+                            'description' => $environ['POST']['description']
                         ]
                     ]
                 ];
@@ -115,7 +115,7 @@ class Categories implements Controller
      * method GET, return update entry with given id
      * method POST, attempt to update entry then redirect
      */
-    public function update(string $id): array|null
+    public function update(array $environ, string $id): array|null
     {
         return [];
     }
@@ -123,7 +123,7 @@ class Categories implements Controller
     /**
      * method POST, attempt to delete entry then redirect
      */
-    public function delete(): void
+    public function delete(array $environ): void
     {
         return;
     }

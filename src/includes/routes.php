@@ -25,7 +25,7 @@ $website->addRoute('posts/delete', ['POST'], ['Posts', 'delete'],
 $website->addRoute('users/list', ['GET'], ['Users', 'list'],
     true, \Utopix\Entity\User::EDIT_USER_ACCESS);
 $website->addRoute('users/get', ['GET'], ['Users', 'get']);
-// $website->addRoute('users/create', ['GET', 'POST'], ['Users', 'create']);
+$website->addRoute('users/create', ['GET', 'POST'], ['Users', 'create']);
 $website->addRoute('users/update', ['GET', 'POST'], ['Users', 'update']);
 $website->addRoute('users/delete', ['Post'], ['Users', 'delete'], true);
 
