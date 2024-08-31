@@ -15,6 +15,11 @@
 
   <!-- Third-part Scripts -->
   <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+  <script>
+    htmx.onLoad(function(content) {
+      $('.dropdown-toggle').dropdown();
+    });
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-L6N915S8QD"></script>
   <script>
@@ -65,7 +70,7 @@
     <div class="row p-0 m-0">
       <div class="col mt-4 mb-4 d-flex justify-content-center p-0 m-0">
         <h1 style="font-size:5em;">
-          <a href="/" class="text-black">
+          <a href="/" class="text-black" hx-boost="true" hx-indicator="#spinner" hx-target="body" hx-replace-url="true">
             <img src="/assets/images/header.png" alt="utopix">
           </a>
         </h1>
@@ -85,6 +90,7 @@
   </div>
 
   <!-- third part js -->
+  <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <!-- app js -->
