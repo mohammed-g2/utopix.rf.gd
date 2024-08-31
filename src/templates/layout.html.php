@@ -27,13 +27,7 @@
   </script>
 </head>
 
-<body
-    hx-boost="true"
-    hx-target="body"
-    hx-push-url="true"
-    hx-swap="outerHTML"
-    hx-indicator="#spinner"
->
+<body>
   <!-- Spinner -->
   <img  id="spinner" class="htmx-indicator" src="/assets/images/800.svg"/>
 

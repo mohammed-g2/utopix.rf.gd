@@ -10,6 +10,7 @@ class Category
     public string $name;
     public ?string $description;
     public ?string $img_url;
+    public ?string $img_path;
     private DatabaseTable $posts;
 
     public function __construct(DatabaseTable $posts)

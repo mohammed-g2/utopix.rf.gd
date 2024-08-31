@@ -3,7 +3,7 @@ namespace Utopix\Controllers;
 
 use \Ninja\DatabaseTable;
 use \Ninja\Controller;
-
+use \Ninja\Dropbox;
 
 class Categories implements Controller
 {
@@ -77,17 +77,21 @@ class Categories implements Controller
                 $errors[] = 'description cannot be empty';
             }
             
-            $upload = upload_image($_FILES['img']);
+            if (empty($errors)) {
+                $dropbox = new Dropbox();
+                $upload = $dropbox->uploadImage($environ['FILES']['img']);
+            }
 
-            if (is_array($upload)) {
-                $errors = array_merge($upload, $errors);
+            if (isset($upload['errors'])) {
+                $errors = array_merge($errors, $upload['errors']);
             }
 
             if (empty($errors)) {
                 $this->categories->save([
                     'name' => $environ['POST']['name'],
                     'description' => $environ['POST']['description'],
-                    'img_url' => '/assets/images/' . $upload
+                    'img_url' => $upload['link'],
+                    'img_path' => $upload['path']
                 ]);
 
                 header('Location: /categories/list');

@@ -2,6 +2,8 @@
 
 namespace Utopix\Controllers;
 
+use \GuzzleHttp\Client as GuzzleClient;
+
 use \Ninja\DatabaseTable;
 use \Ninja\Authentication;
 
@@ -21,15 +23,16 @@ class Auth
         return '<Controller Auth>';
     }
 
-    public function login()
+    public function login(array $environ)
     {        
         if ($this->authentication->isAuthenticated()) {
             header('location: /');
             exit;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($this->authentication->login($_POST['email'], $_POST['password'])) {
+        if ($environ['SERVER']['REQUEST_METHOD'] === 'POST') {
+            if ($this->authentication->login(
+                    $environ['POST']['email'], $environ['POST']['password'])) {
                 header('location: /');
                 exit;
             }
@@ -51,7 +54,7 @@ class Auth
         }
     }
 
-    public function logout()
+    public function logout(array $environ)
     {
         if (!$this->authentication->isAuthenticated()) {
             header('location: /');
@@ -60,6 +63,36 @@ class Auth
 
         $this->authentication->logout();
         header('location: /');
+        exit;
+    }
+
+    public function authorizeDropbox(array $environ)
+    {
+        $authUrl = 'https://www.dropbox.com/oauth2/authorize?client_id=' 
+                    . $environ['env']['DROPBOX_APP_KEY']
+                    . '&redirect_uri='
+                    . $environ['env']['DROPBOX_REDIRECT_URI']
+                    . '&response_type=code&token_access_type=offline';
+        header('Location: ' . $authUrl);
+        exit;
+    }
+
+    public function saveDropboxToken(array $environ)
+    { 
+        $client = new GuzzleClient();
+        $response = $client->request('POST', 'https://api.dropboxapi.com/oauth2/token',
+            ['form_params' => [
+                'code' => $environ['GET']['code'],
+                'grant_type' => 'authorization_code',
+                'client_id' => $environ['env']['DROPBOX_APP_KEY'], 
+                'client_secret' => $environ['env']['DROPBOX_APP_SECRET'],
+                'redirect_uri' => $environ['env']['DROPBOX_REDIRECT_URI']]]
+        );
+        $token = json_decode($response->getBody())->access_token;
+        $file = fopen(__DIR__ . '/../../../token', 'w');
+        fwrite($file, $token);
+        fclose($file);
+        header('Location: /posts/create');
         exit;
     }
 }

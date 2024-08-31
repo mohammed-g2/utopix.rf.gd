@@ -3,6 +3,8 @@
 namespace Utopix\Controllers;
 
 use \DateTime;
+use Error;
+use Exception;
 use \Ninja\DatabaseTable;
 use \Ninja\Authentication;
 use \Ninja\Controller;
@@ -104,11 +106,13 @@ class Posts implements Controller
                 $errors[] = 'please choose another title';
             }
 
-            $dropbox = new Dropbox($environ['env']['DROPBOX_TOKEN']);
-            $upload = $dropbox->uploadImage($environ['FILES']['img']);
-
-            if (isset($upload['error'])) {
-                $errors = array_merge($upload, $errors);
+            if (empty($errors)) {
+                $dropbox = new Dropbox();
+                $upload = $dropbox->uploadImage($environ['FILES']['img']);
+            }
+            
+            if (isset($upload['errors'])) {
+                $errors = array_merge($upload['errors'], $errors);
             }
 
             if (empty($errors)) {
@@ -177,10 +181,12 @@ class Posts implements Controller
                 $errors[] = 'please choose another title';
             }
 
-            $dropbox = new Dropbox($environ['env']['DROPBOX_TOKEN']);
-            $upload = $dropbox->uploadImage($environ['FILES']['img']);
+            if (empty($errors)) {
+                $dropbox = new Dropbox();
+                $upload = $dropbox->uploadImage($environ['FILES']['img']);
+            }
 
-            if (isset($upload['error'])) {
+            if (isset($upload['errors'])) {
                 $errors = array_merge($errors, $upload['errors']);
             }
             else {

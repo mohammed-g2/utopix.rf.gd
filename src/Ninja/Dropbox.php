@@ -2,15 +2,35 @@
 
 namespace Ninja;
 
-use \Spatie\Dropbox\Client;
+use \Spatie\Dropbox\Client as DropboxClient;
 
 class Dropbox
 {
-    private Client $client;
+    private DropboxClient $client;
+    private ?string $token;
 
-    public function __construct(string $token)
+    public function __construct()
     {
-        $this->client = new Client($token);
+        $this->token = null;
+        $this->loadToken();
+        $this->client = new DropboxClient($this->token);
+    }
+
+    /**
+     * load token from saved file if it exists else redirect to oauth2 authentication page
+     */
+    private function loadToken()
+    {
+        if ($this->token === null) {
+            $file = __DIR__ . '/../../token';
+            if (file_exists($file)) {
+                $this->token = file_get_contents($file);
+            }
+            else {
+                header('Location: auth/dropbox');
+                exit;
+            }
+        }
     }
 
     /**
@@ -63,9 +83,13 @@ class Dropbox
                     'link' => $this->client->createSharedLinkWithSettings($path)['url'] . '&raw=1'
                 ];
             } catch (\Exception $e) {
+                if (empty($e->getMessage()) || stristr($e->getMessage(), '401 Unauthorized')) {
+                    header('Location: /auth/dropbox');
+                    exit;
+                }
                 return [
-                    'error' => true,
-                    'errors' => ['could not upload image to dropbox']
+                    'errors' => [
+                        'could not upload image to dropbox, Error: ' . $e->getMessage()]
                 ];
             }
         }
