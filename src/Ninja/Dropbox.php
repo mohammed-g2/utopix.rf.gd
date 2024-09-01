@@ -100,6 +100,9 @@ class Dropbox
      */
     public function delete(string $path)
     {
-        $this->client->delete($path);
+        try {
+            $this->client->delete($path);
+        }
+        catch (\Exception $e) {}
     }
 }
