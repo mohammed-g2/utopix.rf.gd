@@ -44,10 +44,18 @@ class Dropbox
      *      'error' => true,
      *      'errors' => []
      * ]
+     * 
+     * @param array $file - $_FILE['name']
+     * @param bool $ignore_empty - if set to true returns an empty list if 
+     *             no image provided instead of an error
      */
-    public function uploadImage(array $file): array
+    public function uploadImage(array $file, bool $ignore_empty=false): array
     {
         $errors = [];
+        
+        if ($ignore_empty && empty($file['tmp_name'])) {
+            return [];
+        }
 
         if (empty($file['tmp_name'])) {
             $errors[] = 'you did not choose an image';

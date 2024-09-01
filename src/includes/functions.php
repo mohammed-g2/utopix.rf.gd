@@ -15,6 +15,8 @@ function p_echo($var) {
  * $file is $_FILES['name'],
  * attempt to upload image and return either an 
  * array of errors or the image name
+ * @param array $file - $_FILE['name']
+ * @param bool $ignore_empty - returns an empty list if no image provided instead of an error
  */
 function upload_image(array $file, bool $ignore_empty=false): array {
     $errors = [];

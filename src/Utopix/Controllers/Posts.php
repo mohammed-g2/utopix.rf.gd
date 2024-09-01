@@ -165,6 +165,7 @@ class Posts implements Controller
         $dropbox->checkAuthorized();
         
         $post = $this->posts->getById($id);
+
         if ($post === false) {
             http_response_code(404);
             header('location: /error/404');
@@ -186,7 +187,7 @@ class Posts implements Controller
             }
 
             if (empty($errors)) {
-                $upload = $dropbox->uploadImage($environ['FILES']['img']);
+                $upload = $dropbox->uploadImage($environ['FILES']['img'], true);
             }
 
             if (isset($upload['errors'])) {
@@ -194,23 +195,36 @@ class Posts implements Controller
             }
             else {
                 // delete old image if another one is uploaded
-                if (isset($post->img_path)) {
+                if (isset($post->img_path) && isset($upload['link'])) {
                     $dropbox->delete($post->img_path);
                 }
             }
 
             if (empty($errors)) {
-                $post = $this->posts->save([
-                    'id' => $post->id,
-                    'title' => $environ['POST']['title'],
-                    'body' => $environ['POST']['body'],
-                    'updated_at' => new DateTime(),
-                    'publish' => true,
-                    'img_url' => $upload['link'],
-                    'category_id' => $environ['POST']['category_id'],
-                    'img_path' => $upload['path']
-                ]);
-
+                if (!isset($upload['link'])) {
+                    $post = [
+                        'id' => $post->id,
+                        'title' => $environ['POST']['title'],
+                        'body' => $environ['POST']['body'],
+                        'updated_at' => new DateTime(),
+                        'publish' => true,
+                        'category_id' => $environ['POST']['category_id'],
+                    ];
+                }
+                else {
+                    $post = [
+                        'id' => $post->id,
+                        'title' => $environ['POST']['title'],
+                        'body' => $environ['POST']['body'],
+                        'updated_at' => new DateTime(),
+                        'publish' => true,
+                        'img_url' => $upload['link'],
+                        'category_id' => $environ['POST']['category_id'],
+                        'img_path' => $upload['path']
+                    ];
+                }
+                
+                $this->posts->save($post);
                 header('location: /posts/list');
                 exit;
             }
