@@ -9,8 +9,10 @@
 // Auth controller routes
 $website->addRoute('auth/login', ['GET', 'POST'], ['Auth', 'login']);
 $website->addRoute('auth/logout', ['GET', 'POST'], ['Auth', 'logout']);
-$website->addRoute('auth/dropbox', ['GET'], ['Auth', 'authorizeDropbox']);
-$website->addRoute('auth/save-dropbox-token', ['GET'], ['Auth', 'saveDropboxToken']);
+$website->addRoute('auth/dropbox', ['GET'], ['Auth', 'authorizeDropbox'],
+    true, \Utopix\Entity\User::EDIT_POST);
+$website->addRoute('auth/save-dropbox-token', ['GET'], ['Auth', 'saveDropboxToken'],
+    true, \Utopix\Entity\User::EDIT_POST);
 
 // Posts controller routes
 $website->addRoute('posts/home', ['GET'], ['Posts', 'homePage']);
