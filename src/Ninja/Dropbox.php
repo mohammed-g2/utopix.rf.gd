@@ -2,6 +2,7 @@
 
 namespace Ninja;
 
+use Exception;
 use \Spatie\Dropbox\Client as DropboxClient;
 
 class Dropbox
@@ -27,7 +28,7 @@ class Dropbox
                 $this->token = file_get_contents($file);
             }
             else {
-                header('Location: auth/dropbox');
+                header('Location: /auth/dropbox');
                 exit;
             }
         }
@@ -104,5 +105,20 @@ class Dropbox
             $this->client->delete($path);
         }
         catch (\Exception $e) {}
+    }
+
+    /**
+     * return true if current token is valid else starts authorization flow
+     */
+    public function checkAuthorized(): ?bool
+    {
+        try {
+            $this->client->getAccountInfo();
+            return true;
+        }
+        catch (Exception $e) {
+            header('Location: /auth/dropbox');
+            exit;
+        }
     }
 }
