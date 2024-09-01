@@ -78,7 +78,11 @@ class Auth
     }
 
     public function saveDropboxToken(array $environ)
-    { 
+    {
+        if (isset($environ['GET']['error'])) {
+            header(('Location: /'));
+            exit;
+        }
         $client = new GuzzleClient();
         $response = $client->request('POST', 'https://api.dropboxapi.com/oauth2/token',
             ['form_params' => [

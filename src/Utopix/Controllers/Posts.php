@@ -3,7 +3,6 @@
 namespace Utopix\Controllers;
 
 use \DateTime;
-use Error;
 use Exception;
 use \Ninja\DatabaseTable;
 use \Ninja\Authentication;
@@ -93,6 +92,9 @@ class Posts implements Controller
      * method POST, attempt to create a new post then redirect
      */
     public function create(array $environ): array|null {
+        $dropbox = new Dropbox();
+        $dropbox->checkAuthorized();
+
         if ($environ['SERVER']['REQUEST_METHOD'] === 'POST') {
             $errors = [];
 
@@ -107,7 +109,6 @@ class Posts implements Controller
             }
 
             if (empty($errors)) {
-                $dropbox = new Dropbox();
                 $upload = $dropbox->uploadImage($environ['FILES']['img']);
             }
             
@@ -160,6 +161,9 @@ class Posts implements Controller
      * method POST, attempt to update the post then redirect
      */
     public function update(array $environ, string $id): array|null {
+        $dropbox = new Dropbox();
+        $dropbox->checkAuthorized();
+        
         $post = $this->posts->getById($id);
         if ($post === false) {
             http_response_code(404);
@@ -182,7 +186,6 @@ class Posts implements Controller
             }
 
             if (empty($errors)) {
-                $dropbox = new Dropbox();
                 $upload = $dropbox->uploadImage($environ['FILES']['img']);
             }
 
