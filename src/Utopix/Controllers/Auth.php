@@ -42,7 +42,7 @@ class Auth
                     'template' => 'auth/login.html.php',
                     'flashedMsgs' => $errors,
                     'variables' => [
-                        'email' => $_POST['email']
+                        'email' => $environ['POST']['email']
                     ]
                 ];
             }
