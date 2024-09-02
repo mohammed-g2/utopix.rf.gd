@@ -30,7 +30,7 @@
                                     </a>
                                 <?php endif; ?>
                             </h6>
-                            <p>By <?= htmlspecialchars($post->getUser()->username, ENT_QUOTES, 'UTF-8') ?> - <?= $post->updated_at ?></p>
+                            <p>By <?= htmlspecialchars($post->getUser()->username, ENT_QUOTES, 'UTF-8') ?> - <span class="time"><?= $post->updated_at ?></span></p>
 
                             <?php if ($currentUser->hasPermission($permissions['EDIT_POST'])): ?>
                                 <a href="/posts/update/<?= $post->id ?>" class="btn btn-warning px-4">Edit</a>

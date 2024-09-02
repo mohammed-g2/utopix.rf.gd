@@ -27,7 +27,7 @@
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="m-0 p-0"><?= htmlspecialchars($trending->title, ENT_QUOTES, 'UTF-8') ?></h6>
-                            <p class="m-0"><small><?= $trending->updated_at ?></small></p>
+                            <p class="m-0"><small class="time"><?= $trending->updated_at ?></small></p>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -191,7 +191,7 @@
                                     By <a class="text-danger me-2">
                                         <?= htmlspecialchars($secondary->getUser()->username, ENT_QUOTES, 'UTF-8') ?>
                                     </a> /
-                                    <i class="zmdi zmdi-time ms-2"></i> <span class="me-2"><?= $secondary->updated_at ?></span> /
+                                    <i class="zmdi zmdi-time ms-2"></i> <span class="me-2 time"><?= $secondary->updated_at ?></span> /
                                     <i class="zmdi zmdi-comments ms-2"></i> 15
                                 </small>
                             </p>

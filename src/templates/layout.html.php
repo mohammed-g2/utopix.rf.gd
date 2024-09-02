@@ -14,8 +14,26 @@
   <link rel="stylesheet" href="/assets/css/base.css">
 
   <!-- Third-part Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
   <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
   <script>
+    window.addEventListener('load', ev => {
+      const TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const dayjs_utc = window.dayjs_plugin_utc;
+      const dayjs_timezone = window.dayjs_plugin_timezone;
+      const dayjs_relativeTime = window.dayjs_plugin_relativeTime;
+      dayjs.extend(dayjs_utc);
+      dayjs.extend(dayjs_timezone);
+      dayjs.extend(dayjs_relativeTime);
+      document.querySelectorAll('.time').forEach(t => {
+        let time = dayjs.tz(t.textContent, TZ).fromNow();
+        t.textContent = time;
+      });
+    });
+    
     htmx.onLoad(function(content) {
       $('.dropdown-toggle').dropdown();
     });
