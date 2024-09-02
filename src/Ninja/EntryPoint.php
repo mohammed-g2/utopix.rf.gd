@@ -73,7 +73,7 @@ class EntryPoint
                 } 
                 else if (isset($view['permissionsRequired']) && $view['permissionsRequired'] !== 0) {
                     $user = $authentication->getCurrentUer();
-                    if ($user !== false && !$user->hasPermission($view['permissionsRequired'])) {
+                    if (!$user->hasPermission($view['permissionsRequired'])) {
                         http_response_code(403);
                         header('location: /error/403');
                         exit;

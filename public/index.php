@@ -12,7 +12,11 @@ use \Ninja\EntryPoint;
 $website = new UtopixWebsite($pdo);
 $entryPoint = new EntryPoint($env, $website);
 
-$uri = strtok(ltrim($_SERVER['REQUEST_URI'], '/'), '?') ?? '';
+$uri = strtok(ltrim($_SERVER['REQUEST_URI'], '/'), '?');
+if ($uri === false) {
+    $uri = '';
+}
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 include_once __DIR__ . '/../src/includes/routes.php';
