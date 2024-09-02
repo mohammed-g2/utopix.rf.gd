@@ -6,6 +6,10 @@
  * all args will be supplied to controller method
  */
 
+// Admin controller routes
+$website->addRoute('admin/dashboard', ['GET'], ['Admin', 'dashboard'],
+    true, \Utopix\Entity\User::EDIT_USER_ACCESS);
+
 // Auth controller routes
 $website->addRoute('auth/login', ['GET', 'POST'], ['Auth', 'login']);
 $website->addRoute('auth/logout', ['GET', 'POST'], ['Auth', 'logout']);
