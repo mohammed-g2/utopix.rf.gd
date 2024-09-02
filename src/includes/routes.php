@@ -47,6 +47,18 @@ $website->addRoute('categories/update', ['GET', 'POST'], ['Categories', 'update'
 $website->addRoute('categories/delete', ['Post'], ['Categories', 'delete'],
     true, \Utopix\Entity\User::DELETE_CATEGORY);
 
+// Comments controller routes
+$website->addRoute('comments/list', ['GET'], ['Comments', 'list'],
+    true, \Utopix\Entity\User::EDIT_USER_ACCESS);
+$website->addRoute('comments/get', ['GET'], ['Comments', 'get'],
+    true, \Utopix\Entity\User::EDIT_USER_ACCESS);
+$website->addRoute('comments/create', ['POST'], ['Comments', 'create'],
+    true, \Utopix\Entity\User::EDIT_USER_ACCESS);
+$website->addRoute('comments/update', ['POST'], ['Comments', 'update'],
+    true, \Utopix\Entity\User::EDIT_USER_ACCESS);
+$website->addRoute('comments/delete', ['POST'], ['Comments', 'delete'],
+    true, \Utopix\Entity\User::EDIT_USER_ACCESS);
+
 // Error routes
 $website->addRoute('error/404', ['GET'], ['Errors', 'pageNotFound']);
 $website->addRoute('error/401', ['GET'], ['Errors', 'authenticationRequired']);

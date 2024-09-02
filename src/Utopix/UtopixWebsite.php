@@ -13,6 +13,7 @@ class UtopixWebsite implements Website
     private ?DatabaseTable $users;
     private ?DatabaseTable $posts;
     private ?DatabaseTable $categories;
+    private ?DatabaseTable $comments;
     private Authentication $authentication;
     private array $routes;
 
@@ -37,8 +38,16 @@ class UtopixWebsite implements Website
             $this->pdo, 
             'categories', 
             'id',
-        'Utopix\Entity\Category',
-        [&$this->posts]);
+            'Utopix\Entity\Category',
+            [&$this->posts]
+        );
+        $this->comments = new DatabaseTable(
+            $this->pdo,
+            'comments',
+            'id',
+            'Utopix\Entity\Comment',
+            [&$this->users, &$this->posts]
+        );
         $this->authentication = new Authentication($this->users, 'email', 'password');
         $this->routes = [];
     }
@@ -77,6 +86,8 @@ class UtopixWebsite implements Website
             'Users' => new \Utopix\Controllers\Users($this->users, $this->authentication),
             'Categories' => new \Utopix\Controllers\Categories($this->categories),
             'Auth' => new \Utopix\Controllers\Auth($this->users, $this->authentication),
+            'Admin' => new \Utopix\Controllers\Admin(),
+            'Comments' => new \Utopix\Controllers\Comments($this->comments),
             'Errors' => new \Utopix\Controllers\Errors()
         ];
 
