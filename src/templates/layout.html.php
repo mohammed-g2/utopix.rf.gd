@@ -69,11 +69,11 @@
   <div class="container-fluid p-0 h-100">
     <div class="row p-0 m-0">
       <div class="col mt-4 mb-4 d-flex justify-content-center p-0 m-0">
-        <h1 style="font-size:5em;">
+        <div style="font-size:5em;">
           <a href="/" class="text-black" hx-boost="true" hx-indicator="#spinner" hx-target="body" hx-replace-url="true">
             <img src="/assets/images/header.png" alt="utopix">
           </a>
-        </h1>
+      </div>
       </div>
     </div>
 

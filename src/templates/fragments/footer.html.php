@@ -2,7 +2,11 @@
 <footer id="footer" class="row ms-md-0 ms-3 m-0 px-md-5 mb-5">
     <hr>
     <div class="col-md-6 col-12">
-        <h1 class="mb-4" style="font-size:4em;"><span style="color:#c00100;">𝖀</span>𝖙𝖔𝖕𝖎𝖝</h1>
+        <div class="mb-4">
+        <a href="/" class="text-black" hx-boost="true" hx-indicator="#spinner" hx-target="body" hx-replace-url="true">
+            <img src="/assets/images/header.png" alt="utopix">
+        </a>
+        </div>
         <span class="d-inline-block bg-dark py-2 px-3 me-3 skew"><i class="zmdi zmdi-facebook text-white"></i></span>
         <span class="d-inline-block bg-dark py-2 px-3 skew"><i class="zmdi zmdi-twitter text-white"></i></span>
     </div>
